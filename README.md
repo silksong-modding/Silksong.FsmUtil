@@ -1,4 +1,4 @@
-# Silk.Core.FsmUtil
+# Silksong.FsmUtil
 
 This is a library for mods to make FSM edits easier.
 
