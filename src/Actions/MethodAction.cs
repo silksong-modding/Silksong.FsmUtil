@@ -11,7 +11,7 @@ namespace Silksong.FsmUtil.Actions
         /// <summary>
         ///     The method to invoke.
         /// </summary>
-        public Action? Method;
+        public Action<MethodAction>? Method;
 
         /// <summary>
         ///     Resets the action.
@@ -27,7 +27,7 @@ namespace Silksong.FsmUtil.Actions
         /// </summary>
         public override void OnEnter()
         {
-            Method?.Invoke();
+            Method?.Invoke(this);
             Finish();
         }
     }

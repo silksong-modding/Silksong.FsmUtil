@@ -330,13 +330,13 @@ public static class FsmUtil
     /// <param name="stateName">The name of the state in which the method is added</param>
     /// <param name="method">The method that will be invoked</param>
     [PublicAPI]
-    public static void AddMethod(this PlayMakerFSM fsm, string stateName, Action method) => fsm.GetState(stateName)!.AddMethod(method);
+    public static void AddMethod(this PlayMakerFSM fsm, string stateName, Action<MethodAction> method) => fsm.GetState(stateName)!.AddMethod(method);
 
-    /// <inheritdoc cref="AddMethod(PlayMakerFSM, string, Action)"/>
+    /// <inheritdoc cref="AddMethod(PlayMakerFSM, string, Action{MethodAction})"/>
     /// <param name="state">The fsm state</param>
     /// <param name="method">The method that will be invoked</param>
     [PublicAPI]
-    public static void AddMethod(this FsmState state, Action method) => state.AddAction(new MethodAction { Method = method });
+    public static void AddMethod(this FsmState state, Action<MethodAction> method) => state.AddAction(new MethodAction { Method = method });
 
     /// <summary>
     ///     Adds a method with a parameter in a PlayMakerFSM.
@@ -415,14 +415,14 @@ public static class FsmUtil
     /// <param name="index">The index to place the action in</param>
     /// <returns>bool that indicates whether the insertion was successful</returns>
     [PublicAPI]
-    public static void InsertMethod(this PlayMakerFSM fsm, string stateName, Action method, int index) => fsm.GetState(stateName)!.InsertMethod(method, index);
+    public static void InsertMethod(this PlayMakerFSM fsm, string stateName, Action<MethodAction> method, int index) => fsm.GetState(stateName)!.InsertMethod(method, index);
 
-    /// <inheritdoc cref="InsertMethod(PlayMakerFSM, string, Action, int)"/>
+    /// <inheritdoc cref="InsertMethod(PlayMakerFSM, string, Action{MethodAction}, int)"/>
     /// <param name="state">The fsm state</param>
     /// <param name="method">The method that will be invoked</param>
     /// <param name="index">The index to place the action in</param>
     [PublicAPI]
-    public static void InsertMethod(this FsmState state, Action method, int index) => state.InsertAction(new MethodAction { Method = method }, index);
+    public static void InsertMethod(this FsmState state, Action<MethodAction> method, int index) => state.InsertAction(new MethodAction { Method = method }, index);
 
     /// <summary>
     ///     Inserts a method with a parameter in a PlayMakerFSM.
@@ -1106,7 +1106,7 @@ public static class FsmUtil
                 fsm.InsertAction(s.Name, new LogAction { Text = $"{i}" }, i);
                 if (additionalLogging)
                 {
-                    fsm.InsertMethod(s.Name, () =>
+                    fsm.InsertMethod(s.Name, (self) =>
                     {
                         var fsmVars = fsm.FsmVariables;
                         foreach (var variable in fsmVars.FloatVariables)
