@@ -1,0 +1,40 @@
+﻿using System;
+using HutongGames.PlayMaker;
+
+namespace Silksong.FsmUtil.Actions
+{
+    /// <summary>
+    ///     FsmStateAction that invokes methods with an argument.
+    ///     You will likely use this with a `HutongGames.PlayMaker.NamedVariable` as the generic argument
+    /// </summary>
+    public class FunctionAction<TArg> : FsmStateAction
+    {
+        /// <summary>
+        ///     The method to invoke.
+        /// </summary>
+        public Action<TArg?>? Method;
+
+        /// <summary>
+        ///     The argument.
+        /// </summary>
+        public TArg? Arg;
+
+        /// <summary>
+        ///     Resets the action.
+        /// </summary>
+        public override void Reset()
+        {
+            Method = null;
+            base.Reset();
+        }
+
+        /// <summary>
+        ///     Called when the action is being processed.
+        /// </summary>
+        public override void OnEnter()
+        {
+            Method?.Invoke(Arg);
+            Finish();
+        }
+    }
+}
