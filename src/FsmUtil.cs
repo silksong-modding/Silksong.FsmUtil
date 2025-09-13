@@ -1099,11 +1099,9 @@ public static class FsmUtil
     [PublicAPI]
     public static void MakeLog(this PlayMakerFSM fsm, bool additionalLogging = false)
     {
-        int i;
-        int j;
         foreach (var s in fsm.FsmStates)
         {
-            for (i = s.Actions.Length - 1; i >= 0; i--)
+            for (int i = s.Actions.Length - 1; i >= 0; i--)
             {
                 fsm.InsertAction(s.Name, new LogAction { Text = $"{i}" }, i);
                 if (additionalLogging)
@@ -1111,36 +1109,26 @@ public static class FsmUtil
                     fsm.InsertMethod(s.Name, () =>
                     {
                         var fsmVars = fsm.FsmVariables;
-                        var origFloatVariables = fsmVars.FloatVariables;
-                        var origIntVariables = fsmVars.IntVariables;
-                        var origBoolVariables = fsmVars.BoolVariables;
-                        var origStringVariables = fsmVars.StringVariables;
-                        var origVector2Variables = fsmVars.Vector2Variables;
-                        var origVector3Variables = fsmVars.Vector3Variables;
-                        var origColorVariables = fsmVars.ColorVariables;
-                        var origRectVariables = fsmVars.RectVariables;
-                        var origQuaternionVariables = fsmVars.QuaternionVariables;
-                        var origGameObjectVariables = fsmVars.GameObjectVariables;
-                        for (j = 0; j < origFloatVariables.Length; j++)
-                            InternalLogger.Log($"[{fsm.gameObject.name}]:[{fsm.FsmName}]:[FloatVariables] - '{origFloatVariables[j].Name}': '{origFloatVariables[j].Value}'");
-                        for (j = 0; j < origIntVariables.Length; j++)
-                            InternalLogger.Log($"[{fsm.gameObject.name}]:[{fsm.FsmName}]:[IntVariables] - '{origIntVariables[j].Name}': '{origIntVariables[j].Value}'");
-                        for (j = 0; j < origBoolVariables.Length; j++)
-                            InternalLogger.Log($"[{fsm.gameObject.name}]:[{fsm.FsmName}]:[BoolVariables] - '{origBoolVariables[j].Name}': '{origBoolVariables[j].Value}'");
-                        for (j = 0; j < origStringVariables.Length; j++)
-                            InternalLogger.Log($"[{fsm.gameObject.name}]:[{fsm.FsmName}]:[StringVariables] - '{origStringVariables[j].Name}': '{origStringVariables[j].Value}'");
-                        for (j = 0; j < origVector2Variables.Length; j++)
-                            InternalLogger.Log($"[{fsm.gameObject.name}]:[{fsm.FsmName}]:[Vector2Variables] - '{origVector2Variables[j].Name}': '({origVector2Variables[j].Value.x}, {origVector2Variables[j].Value.y})'");
-                        for (j = 0; j < origVector3Variables.Length; j++)
-                            InternalLogger.Log($"[{fsm.gameObject.name}]:[{fsm.FsmName}]:[Vector3Variables] - '{origVector3Variables[j].Name}': '({origVector3Variables[j].Value.x}, {origVector3Variables[j].Value.y}, {origVector3Variables[j].Value.z})'");
-                        for (j = 0; j < origColorVariables.Length; j++)
-                            InternalLogger.Log($"[{fsm.gameObject.name}]:[{fsm.FsmName}]:[ColorVariables] - '{origColorVariables[j].Name}': '{origColorVariables[j].Value}'");
-                        for (j = 0; j < origRectVariables.Length; j++)
-                            InternalLogger.Log($"[{fsm.gameObject.name}]:[{fsm.FsmName}]:[RectVariables] - '{origRectVariables[j].Name}': '{origRectVariables[j].Value}'");
-                        for (j = 0; j < origQuaternionVariables.Length; j++)
-                            InternalLogger.Log($"[{fsm.gameObject.name}]:[{fsm.FsmName}]:[QuaternionVariables] - '{origQuaternionVariables[j].Name}': '{origQuaternionVariables[j].Value}'");
-                        for (j = 0; j < origGameObjectVariables.Length; j++)
-                            InternalLogger.Log($"[{fsm.gameObject.name}]:[{fsm.FsmName}]:[GameObjectVariables] - '{origGameObjectVariables[j].Name}': '{origGameObjectVariables[j].Value}'");
+                        foreach (var variable in fsmVars.FloatVariables)
+                            InternalLogger.Log($"[{fsm.gameObject.name}]:[{fsm.FsmName}]:[FloatVariables] - '{variable.Name}': '{variable.Value}'");
+                        foreach (var variable in fsmVars.IntVariables)
+                            InternalLogger.Log($"[{fsm.gameObject.name}]:[{fsm.FsmName}]:[IntVariables] - '{variable.Name}': '{variable.Value}'");
+                        foreach (var variable in fsmVars.BoolVariables)
+                            InternalLogger.Log($"[{fsm.gameObject.name}]:[{fsm.FsmName}]:[BoolVariables] - '{variable.Name}': '{variable.Value}'");
+                        foreach (var variable in fsmVars.StringVariables)
+                            InternalLogger.Log($"[{fsm.gameObject.name}]:[{fsm.FsmName}]:[StringVariables] - '{variable.Name}': '{variable.Value}'");
+                        foreach (var variable in fsmVars.Vector2Variables)
+                            InternalLogger.Log($"[{fsm.gameObject.name}]:[{fsm.FsmName}]:[Vector2Variables] - '{variable.Name}': '({variable.Value.x}, {variable.Value.y})'");
+                        foreach (var variable in fsmVars.Vector3Variables)
+                            InternalLogger.Log($"[{fsm.gameObject.name}]:[{fsm.FsmName}]:[Vector3Variables] - '{variable.Name}': '({variable.Value.x}, {variable.Value.y}, {variable.Value.z})'");
+                        foreach (var variable in fsmVars.ColorVariables)
+                            InternalLogger.Log($"[{fsm.gameObject.name}]:[{fsm.FsmName}]:[ColorVariables] - '{variable.Name}': '{variable.Value}'");
+                        foreach (var variable in fsmVars.RectVariables)
+                            InternalLogger.Log($"[{fsm.gameObject.name}]:[{fsm.FsmName}]:[RectVariables] - '{variable.Name}': '{variable.Value}'");
+                        foreach (var variable in fsmVars.QuaternionVariables)
+                            InternalLogger.Log($"[{fsm.gameObject.name}]:[{fsm.FsmName}]:[QuaternionVariables] - '{variable.Name}': '{variable.Value}'");
+                        foreach (var variable in fsmVars.GameObjectVariables)
+                            InternalLogger.Log($"[{fsm.gameObject.name}]:[{fsm.FsmName}]:[GameObjectVariables] - '{variable.Name}': '{variable.Value}'");
                     }, i + 1);
                 }
             }
