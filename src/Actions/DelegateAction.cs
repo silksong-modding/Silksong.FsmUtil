@@ -4,18 +4,18 @@ using HutongGames.PlayMaker;
 namespace Silksong.FsmUtil.Actions
 {
     /// <summary>
-    ///     FsmStateAction that invokes methods with an argument.
+    ///     FsmStateAction that invokes methods with the  argument.
     ///     You will likely use this with a `HutongGames.PlayMaker.NamedVariable` as the generic argument
     /// </summary>
-    public class FunctionAction<TArg> : FsmStateAction
+    public class DelegateAction<TArg> : FsmStateAction
     {
         /// <summary>
         ///     The method to invoke.
         /// </summary>
-        public Action<TArg?>? Method;
+        public Action<TArg>? Method;
 
         /// <summary>
-        ///     The argument.
+        ///     The method to invoke.
         /// </summary>
         public TArg? Arg;
 
@@ -33,8 +33,15 @@ namespace Silksong.FsmUtil.Actions
         /// </summary>
         public override void OnEnter()
         {
-            Method?.Invoke(Arg);
-            Finish();
+            if (Method != null && Arg != null)
+            {
+                Method.Invoke(Arg);
+            }
+
+            if ((!(Arg is Action action)) || (action != Finish))
+            {
+                Finish();
+            }
         }
     }
 }

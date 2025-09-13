@@ -328,33 +328,40 @@ public static class FsmUtil
     /// </summary>
     /// <param name="fsm">The fsm</param>
     /// <param name="stateName">The name of the state in which the method is added</param>
-    /// <param name="method">The method that will be invoked</param>
+    /// <param name="method">The method that will be invoked with the action as the parameter</param>
     [PublicAPI]
-    public static void AddMethod(this PlayMakerFSM fsm, string stateName, Action<MethodAction> method) => fsm.GetState(stateName)!.AddMethod(method);
+    public static void AddMethod(this PlayMakerFSM fsm, string stateName, Action<FsmStateAction> method) => fsm.GetState(stateName)!.AddMethod(method);
 
-    /// <inheritdoc cref="AddMethod(PlayMakerFSM, string, Action{MethodAction})"/>
+    /// <inheritdoc cref="AddMethod(PlayMakerFSM, string, Action{FsmStateAction})"/>
     /// <param name="state">The fsm state</param>
-    /// <param name="method">The method that will be invoked</param>
+    /// <param name="method">The method that will be invoked with the action as the parameter</param>
     [PublicAPI]
-    public static void AddMethod(this FsmState state, Action<MethodAction> method) => state.AddAction(new MethodAction { Method = method });
+    public static void AddMethod(this FsmState state, Action<FsmStateAction> method)
+    {
+        DelegateAction<FsmStateAction> action = new DelegateAction<FsmStateAction> { Method = method };
+        action.Arg = action;
+        state.AddAction(action);
+    }
 
     /// <summary>
     ///     Adds a method with a parameter in a PlayMakerFSM.
     /// </summary>
-    /// <typeparam name="TArg">The type of the parameter of the function</typeparam>
     /// <param name="fsm">The fsm</param>
     /// <param name="stateName">The name of the state in which the method is added</param>
-    /// <param name="method">The method that will be invoked</param>
-    /// <param name="arg">The argument for the method</param>
+    /// <param name="method">The method that will be invoked with the finish action as the parameter</param>
     [PublicAPI]
-    public static void AddMethod<TArg>(this PlayMakerFSM fsm, string stateName, Action<TArg?> method, TArg? arg) => fsm.GetState(stateName)!.AddMethod(method, arg);
+    public static void AddLambdaMethod(this PlayMakerFSM fsm, string stateName, Action<Action> method) => fsm.GetState(stateName)!.AddLambdaMethod(method);
 
-    /// <inheritdoc cref="AddMethod{TArg}(PlayMakerFSM, string, Action{TArg}, TArg)"/>
+    /// <inheritdoc cref="AddLambdaMethod(PlayMakerFSM, string, Action{Action})"/>
     /// <param name="state">The fsm state</param>
-    /// <param name="method">The method that will be invoked</param>
-    /// <param name="arg">The argument for the method</param>
+    /// <param name="method">The method that will be invoked with the finish action as the parameter</param>
     [PublicAPI]
-    public static void AddMethod<TArg>(this FsmState state, Action<TArg?> method, TArg? arg) => state.AddAction(new FunctionAction<TArg> { Method = method, Arg = arg });
+    public static void AddLambdaMethod(this FsmState state, Action<Action> method)
+    {
+        DelegateAction<Action> action = new DelegateAction<Action> { Method = method };
+        action.Arg = action.Finish;
+        state.AddAction(action);
+    }
 
     #endregion Add
 
@@ -415,36 +422,43 @@ public static class FsmUtil
     /// <param name="index">The index to place the action in</param>
     /// <returns>bool that indicates whether the insertion was successful</returns>
     [PublicAPI]
-    public static void InsertMethod(this PlayMakerFSM fsm, string stateName, Action<MethodAction> method, int index) => fsm.GetState(stateName)!.InsertMethod(method, index);
+    public static void InsertMethod(this PlayMakerFSM fsm, string stateName, Action<FsmStateAction> method, int index) => fsm.GetState(stateName)!.InsertMethod(method, index);
 
-    /// <inheritdoc cref="InsertMethod(PlayMakerFSM, string, Action{MethodAction}, int)"/>
+    /// <inheritdoc cref="InsertMethod(PlayMakerFSM, string, Action{FsmStateAction}, int)"/>
     /// <param name="state">The fsm state</param>
     /// <param name="method">The method that will be invoked</param>
     /// <param name="index">The index to place the action in</param>
     [PublicAPI]
-    public static void InsertMethod(this FsmState state, Action<MethodAction> method, int index) => state.InsertAction(new MethodAction { Method = method }, index);
+    public static void InsertMethod(this FsmState state, Action<FsmStateAction> method, int index)
+    {
+        DelegateAction<FsmStateAction> action = new DelegateAction<FsmStateAction> { Method = method };
+        action.Arg = action;
+        state.InsertAction(action, index);
+    }
 
     /// <summary>
     ///     Inserts a method with a parameter in a PlayMakerFSM.
     ///     Trying to insert a method out of bounds will cause a `ArgumentOutOfRangeException`.
     /// </summary>
-    /// <typeparam name="TArg">The type of the parameter of the function</typeparam>
     /// <param name="fsm">The fsm</param>
     /// <param name="stateName">The name of the state in which the method is added</param>
     /// <param name="method">The method that will be invoked</param>
-    /// <param name="arg">The argument for the method</param>
     /// <param name="index">The index to place the action in</param>
     /// <returns>bool that indicates whether the insertion was successful</returns>
     [PublicAPI]
-    public static void InsertMethod<TArg>(this PlayMakerFSM fsm, string stateName, Action<TArg?> method, TArg? arg, int index) => fsm.GetState(stateName)!.InsertMethod(method, arg, index);
+    public static void InsertLambdaMethod(this PlayMakerFSM fsm, string stateName, Action<Action> method, int index) => fsm.GetState(stateName)!.InsertLambdaMethod(method, index);
 
-    /// <inheritdoc cref="InsertMethod{TArg}(PlayMakerFSM, string, Action{TArg}, TArg, int)"/>
+    /// <inheritdoc cref="InsertLambdaMethod(PlayMakerFSM, string, Action{Action}, int)"/>
     /// <param name="state">The fsm state</param>
     /// <param name="method">The method that will be invoked</param>
-    /// <param name="arg">The argument for the method</param>
     /// <param name="index">The index to place the action in</param>
     [PublicAPI]
-    public static void InsertMethod<TArg>(this FsmState state, Action<TArg?> method, TArg? arg, int index) => state.InsertAction(new FunctionAction<TArg> { Method = method, Arg = arg }, index);
+    public static void InsertLambdaMethod(this FsmState state, Action<Action> method, int index)
+    {
+        DelegateAction<Action> action = new DelegateAction<Action> { Method = method };
+        action.Arg = action.Finish;
+        state.InsertAction(action, index);
+    }
 
     #endregion Insert
 
