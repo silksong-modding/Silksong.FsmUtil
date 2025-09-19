@@ -17,7 +17,7 @@
 
     <PropertyGroup>
         <!--These properties will control the generated PluginInfo. Version is also used by various parts of the build system.-->
-        <BepInExPluginGuid>silksong_fsmutil</BepInExPluginGuid>
+        <BepInExPluginGuid>org.silksong-modding.fsmutil</BepInExPluginGuid>
         <BepInExPluginName>Silksong.FsmUtil</BepInExPluginName>
         <Version>0.1.0</Version>
     </PropertyGroup>
