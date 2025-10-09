@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="10mm"
+   height="10mm"
+   viewBox="0 0 10 10"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   sodipodi:docname="FSM_UTIL_LOGO.svg"
+   inkscape:export-filename="FSM_UTIL_LOGO.png"
+   inkscape:export-xdpi="650.23999"
+   inkscape:export-ydpi="650.23999"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="mm"
+     inkscape:zoom="16.428527"
+     inkscape:cx="16.739176"
+     inkscape:cy="18.473963"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer2" />
+  <defs
+     id="defs1">
+    <marker
+       style="overflow:visible"
+       id="ArrowWideRounded"
+       refX="0.8"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Wide, rounded arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         style="fill:none;stroke:context-stroke;stroke-width:1;stroke-linecap:round"
+         d="M 3,-3 0,0 3,3"
+         transform="rotate(180,0.125,0)"
+         sodipodi:nodetypes="ccc"
+         id="path4" />
+    </marker>
+  </defs>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="BG">
+    <rect
+       style="fill:#ffffff;stroke:none;stroke-width:0.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+       id="rect7"
+       width="11.450737"
+       height="11.354106"
+       x="-0.59588933"
+       y="-0.51536369"
+       rx="0.5"
+       ry="0.5" />
+  </g>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+       id="rect1"
+       width="7"
+       height="3"
+       x="0.5"
+       y="0.5"
+       ry="0.5"
+       rx="0.5" />
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+       id="rect1-8"
+       width="7"
+       height="3"
+       x="2.5"
+       y="6.4999971"
+       ry="0.5"
+       rx="0.5" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.200039;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+       d="M 0.5500195,1.9999765 H 7.4499416"
+       id="path1" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.200039;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+       d="M 2.5500195,8.0000195 H 9.4499416"
+       id="path1-5" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;marker-end:url(#ArrowWideRounded)"
+       d="m 7.5,2.65 c 0,0 1.564629,-0.1681772 2,0.35 0.1608201,0.1914076 0.1497742,0.5498308 0,0.75 C 7.7306633,6.1146712 2.7693367,3.8853288 1,6.25 0.85022583,6.4501692 0.84460028,6.8041661 1,7 1.319148,7.4021886 2.5,7.35 2.5,7.35"
+       id="path2"
+       sodipodi:nodetypes="caaaac" />
+    <text
+       xml:space="preserve"
+       style="font-size:3.88055556px;font-family:SpAlterna;-inkscape-font-specification:SpAlterna;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:none;stroke:#000000;stroke-width:0.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+       x="3.9858129"
+       y="1.2982363"
+       id="text4"><tspan
+         sodipodi:role="line"
+         id="tspan4"
+         style="stroke-width:0.2;font-size:3.88055556px"></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:1.41111px;font-family:SpAlterna;-inkscape-font-specification:SpAlterna;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;stroke:none;stroke-width:0.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+       x="3.9977717"
+       y="1.7553267"
+       id="text5"><tspan
+         sodipodi:role="line"
+         id="tspan5"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:1.41111px;font-family:Arial;-inkscape-font-specification:'Arial Bold';text-align:center;text-anchor:middle;fill:#000000;stroke:none;stroke-width:0.2"
+         x="3.9977717"
+         y="1.7553267">FSM</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:1.41111px;font-family:SpAlterna;-inkscape-font-specification:SpAlterna;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;stroke:none;stroke-width:0.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+       x="5.9266825"
+       y="7.472774"
+       id="text6"><tspan
+         sodipodi:role="line"
+         id="tspan6"
+         style="stroke-width:0.2"
+         x="5.9266825"
+         y="7.472774" /></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:1.41148px;font-family:Arial;-inkscape-font-specification:'Arial Bold';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;stroke:none;stroke-width:0.200052;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+       x="6.0005484"
+       y="7.7462511"
+       id="text7"
+       transform="scale(0.9999087,1.0000913)"><tspan
+         sodipodi:role="line"
+         id="tspan7"
+         style="text-align:center;text-anchor:middle;stroke:none;stroke-width:0.200052"
+         x="6.0005484"
+         y="7.7462511">util</tspan></text>
+  </g>
+</svg>
