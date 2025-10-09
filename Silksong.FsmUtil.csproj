@@ -55,4 +55,26 @@
         <Copy SourceFiles="@(ArchiveContent)" DestinationFolder="$(IntermediateOutputPath)/archive"/>
         <ZipDirectory SourceDirectory="$(IntermediateOutputPath)/archive" DestinationFile="$(ExportFolder)/$(TargetName).zip" Overwrite="True"/>
     </Target>
+
+    <ItemGroup>
+        <None Include="$(ProjectDir)/icon.png" Pack="true" PackagePath="\"/>
+        <None Include="$(ProjectDir)/LICENSE" Pack="true" PackagePath="\"/>
+        <None Include="$(ProjectDir)/README.md" Pack="true" PackagePath="\"/>
+    </ItemGroup>
+    <PropertyGroup>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Title>$(AssemblyTitle)</Title>
+        <PackageId>org.silksong-modding.fsmutil</PackageId>
+        <PackageVersion>$(Version)</PackageVersion>
+        <Authors>silksong-modding</Authors>
+        <Description>This is a library for mods to make FSM edits easier.</Description>
+        <Copyright>Copyright (c) silksong-modding 2025</Copyright>
+        <PackageProjectUrl>https://github.com/silksong-modding/Silksong.FsmUtil</PackageProjectUrl>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseExpression>EUPL-1.2</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/silksong-modding/Silksong.FsmUtil</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>play;maker;playmaker;fsm;playmakerfsm;hutong;games;hutonggames</PackageTags>
+    </PropertyGroup>
 </Project>
