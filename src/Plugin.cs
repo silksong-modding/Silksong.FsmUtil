@@ -2,13 +2,13 @@ using BepInEx;
 
 namespace Silksong.FsmUtil;
 
-[BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
-public class Plugin : BaseUnityPlugin
+[BepInAutoPlugin("org.silksong-modding.fsmutil")]
+public partial class Plugin : BaseUnityPlugin
 {
     private void Awake()
     {
         InternalLogger.Logger = Logger;
 
-        Logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} has loaded!");
+        Logger.LogInfo($"Plugin {Name} ({Id}) has loaded!");
     }
 }
