@@ -114,6 +114,20 @@ public static class FsmUtil
     public static FsmTransition? GetTransition(this FsmState state, string eventName) => GetItemFromArray(state.Transitions, x => x.EventName == eventName);
 
     /// <summary>
+    ///     Gets a global transition in a PlayMakerFSM.
+    /// </summary>
+    /// <param name="fsm">The fsm</param>
+    /// <param name="stateName">The name of the from state</param>
+    /// <param name="eventName">The name of the event</param>
+    /// <returns>The found global transition, null if none are found</returns>
+    [PublicAPI]
+    public static FsmTransition? GetGlobalTransition(this PlayMakerFSM fsm, string globalEventName) => fsm.Fsm.GetGlobalTransition(globalEventName);
+
+    /// <inheritdoc cref="GetGlobalTransition(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmTransition? GetGlobalTransition(this Fsm fsm, string globalEventName) => GetItemFromArray(fsm.GlobalTransitions, x => x.EventName == globalEventName);
+
+    /// <summary>
     ///     Gets an action in a PlayMakerFSM.
     /// </summary>
     /// <typeparam name="TAction">The type of the action that is wanted</typeparam>
@@ -737,6 +751,30 @@ public static class FsmUtil
         return true;
     }
 
+    /// <summary>
+    ///     Changes a global transition in a PlayMakerFSM.
+    /// </summary>
+    /// <param name="fsm">The fsm</param>
+    /// <param name="globalEventName">The name of transition event</param>
+    /// <param name="toState">The name of the new state</param>
+    /// <returns>bool that indicates whether the change was successful</returns>
+    [PublicAPI]
+    public static bool ChangeGlobalTransition(this PlayMakerFSM fsm, string globalEventName, string toState) => fsm.Fsm.ChangeGlobalTransition(globalEventName, toState);
+
+    /// <inheritdoc cref="ChangeGlobalTransition(PlayMakerFSM, string, string)"/>
+    [PublicAPI]
+    public static bool ChangeGlobalTransition(this Fsm fsm, string globalEventName, string toState)
+    {
+        var transition = fsm.GetGlobalTransition(globalEventName);
+        if (transition == null)
+        {
+            return false;
+        }
+        transition.ToState = toState;
+        transition.ToFsmState = fsm.GetState(toState);
+        return true;
+    }
+
     #endregion Change
 
     #region Remove
@@ -801,6 +839,22 @@ public static class FsmUtil
     /// <param name="eventName">The event of the transition</param>
     [PublicAPI]
     public static void RemoveTransition(this FsmState state, string eventName) => state.Transitions = RemoveItemsFromArray(state.Transitions, x => x.EventName == eventName);
+
+    /// <summary>
+    ///     Removes a global transition in a PlayMakerFSM.  
+    ///     Trying to remove a transition that doesn't exist will result in the transitions not being changed.
+    /// </summary>
+    /// <param name="fsm">The fsm</param>
+    /// <param name="stateName">The name of the state from which the transition starts</param>
+    /// <param name="globalEventName">The event of the transition</param>
+    [PublicAPI]
+    public static void RemoveGlobalTransition(this PlayMakerFSM fsm, string globalEventName) => fsm.Fsm.RemoveGlobalTransition(globalEventName);
+
+    /// <inheritdoc cref="RemoveGlobalTransition(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static void RemoveGlobalTransition(this Fsm fsm, string globalEventName) {
+        fsm.GlobalTransitions = RemoveItemsFromArray(fsm.GlobalTransitions, x => x.EventName == globalEventName);
+    }
 
     /// <summary>
     ///     Removes all transitions to a specified transition in a PlayMakerFSM.  
