@@ -1094,23 +1094,23 @@ public static class FsmUtil
     /// </summary>
     /// <param name="fsm">The fsm</param>
     /// <param name="stateName">The name of the state with the action</param>
-    /// <param name="indizes">The indizes of the action</param>
+    /// <param name="indices">The indices of the action</param>
     /// <returns>bool that indicates whether all the disablings were successful</returns>
     [PublicAPI]
-    public static bool DisableActions(this PlayMakerFSM fsm, string stateName, params int[] indizes) => fsm.GetState(stateName)!.DisableActions(indizes);
+    public static bool DisableActions(this PlayMakerFSM fsm, string stateName, params int[] indices) => fsm.GetState(stateName)!.DisableActions(indices);
 
     /// <inheritdoc cref="DisableActions(PlayMakerFSM, string, int[])"/>
     [PublicAPI]
-    public static bool DisableActions(this Fsm fsm, string stateName, params int[] indizes) => fsm.GetState(stateName)!.DisableActions(indizes);
+    public static bool DisableActions(this Fsm fsm, string stateName, params int[] indices) => fsm.GetState(stateName)!.DisableActions(indices);
 
     /// <inheritdoc cref="DisableActions(PlayMakerFSM, string, int[])"/>
     /// <param name="state">The fsm state</param>
-    /// <param name="indizes">The indizes of the action</param>
+    /// <param name="indices">The indices of the action</param>
     [PublicAPI]
-    public static bool DisableActions(this FsmState state, params int[] indizes)
+    public static bool DisableActions(this FsmState state, params int[] indices)
     {
         bool ret = true;
-        foreach (int index in indizes)
+        foreach (int index in indices)
         {
             ret = ret && state.DisableAction(index);
         }
