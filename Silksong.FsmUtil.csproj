@@ -15,12 +15,14 @@
         </RestoreAdditionalProjectSources>
         <!--Allow access of private members at runtime.-->
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <!--Shortens and anonymizes paths in debug symbols relative to the project directory. Breakpoints will not work in Visual Studio, however.-->
+        <PathMap Condition="'$(Configuration)' == 'Release'">$(MSBuildProjectDirectory)=/</PathMap>
     </PropertyGroup>
 
     <PropertyGroup>
         <!--These properties will control the generated plugin info. Version is also used by various parts of the build system.-->
         <AssemblyTitle>Silksong.FsmUtil</AssemblyTitle>
-        <Version>0.1.0</Version>
+        <Version>0.2.0</Version>
     </PropertyGroup>
 
     <ItemGroup>
