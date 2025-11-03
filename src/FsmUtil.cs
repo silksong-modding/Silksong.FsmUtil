@@ -1170,7 +1170,7 @@ public static class FsmUtil
     {
         TVar[] newArray = new TVar[orig.Length + 1];
         orig.CopyTo(newArray, 0);
-        newArray[orig.Length] = new TVar { Name = name };
+        newArray[orig.Length] = new TVar { name = name };
         return newArray;
     }
 
