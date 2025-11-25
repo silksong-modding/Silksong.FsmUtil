@@ -177,7 +177,7 @@ public static class FsmUtil
     /// <inheritdoc cref="GetActionsOfType{TAction}(PlayMakerFSM, string)"/>
     /// <param name="state">The state</param>
     [PublicAPI]
-    public static TAction[] GetActionsOfType<TAction>(this FsmState state) where TAction : FsmStateAction => (GetItemsFromArray<FsmStateAction>(state.Actions, x => x is TAction) as TAction[])!;
+    public static TAction[] GetActionsOfType<TAction>(this FsmState state) where TAction : FsmStateAction => Array.ConvertAll(GetItemsFromArray<FsmStateAction>(state.Actions, x => x is TAction), x => (TAction)x);
 
     /// <summary>
     ///     Gets first action of a given type in an FsmState.  
