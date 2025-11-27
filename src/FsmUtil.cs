@@ -117,8 +117,7 @@ public static class FsmUtil
     ///     Gets a global transition in a PlayMakerFSM.
     /// </summary>
     /// <param name="fsm">The fsm</param>
-    /// <param name="stateName">The name of the from state</param>
-    /// <param name="eventName">The name of the event</param>
+    /// <param name="globalEventName">The name of the event</param>
     /// <returns>The found global transition, null if none are found</returns>
     [PublicAPI]
     public static FsmTransition? GetGlobalTransition(this PlayMakerFSM fsm, string globalEventName) => fsm.Fsm.GetGlobalTransition(globalEventName);
@@ -648,6 +647,60 @@ public static class FsmUtil
         state.InsertAction(action, index);
     }
 
+    /// <summary>
+    /// Insert a method to run before the specified FsmStateAction.
+    /// </summary>
+    /// <param name="action">The action to insert before.</param>
+    /// <param name="method">The method to execute.
+    /// The argument will be the FsmStateAction which is being added.</param>
+    [PublicAPI]
+    public static void InsertMethodBefore(this FsmStateAction action, Action<FsmStateAction> method)
+    {
+        FsmState state = action.State;
+        int idx = Array.IndexOf(state.Actions, action);
+        state.InsertMethod(idx, method);
+    }
+
+    /// <summary>
+    /// Insert a method to run after the specified FsmStateAction.
+    /// </summary>
+    /// <param name="action">The action to insert after.</param>
+    /// <param name="method">The method to execute.
+    /// The argument will be the FsmStateAction which is being added.</param>
+    [PublicAPI]
+    public static void InsertMethodAfter(this FsmStateAction action, Action<FsmStateAction> method)
+    {
+        FsmState state = action.State;
+        int idx = Array.IndexOf(state.Actions, action);
+        state.InsertMethod(idx + 1, method);
+    }
+
+    /// <summary>
+    /// Insert an action to run before the specified FsmStateAction.
+    /// </summary>
+    /// <param name="action">The action to insert before.</param>
+    /// <param name="newAction">The action to add.</param>
+    [PublicAPI]
+    public static void InsertActionBefore(this FsmStateAction action, FsmStateAction newAction)
+    {
+        FsmState state = action.State;
+        int idx = Array.IndexOf(state.Actions, action);
+        state.InsertAction(idx, newAction);
+    }
+
+    /// <summary>
+    /// Insert an action to run after the specified FsmStateAction.
+    /// </summary>
+    /// <param name="action">The action to insert after.</param>
+    /// <param name="newAction">The action to add.</param>
+    [PublicAPI]
+    public static void InsertActionAfter(this FsmStateAction action, FsmStateAction newAction)
+    {
+        FsmState state = action.State;
+        int idx = Array.IndexOf(state.Actions, action);
+        state.InsertAction(idx + 1, newAction);
+    }
+
     #endregion Insert
 
     #region Replace
@@ -845,7 +898,6 @@ public static class FsmUtil
     ///     Trying to remove a transition that doesn't exist will result in the transitions not being changed.
     /// </summary>
     /// <param name="fsm">The fsm</param>
-    /// <param name="stateName">The name of the state from which the transition starts</param>
     /// <param name="globalEventName">The event of the transition</param>
     [PublicAPI]
     public static void RemoveGlobalTransition(this PlayMakerFSM fsm, string globalEventName) => fsm.Fsm.RemoveGlobalTransition(globalEventName);
