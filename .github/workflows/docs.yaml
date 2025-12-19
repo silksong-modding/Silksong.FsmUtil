@@ -34,10 +34,6 @@ jobs:
         with:
           dotnet-version: 10.x
 
-      - name: Install dependencies main
-        run: dotnet restore
-        working-directory: main
-
       - name: Build main
         run: dotnet build -c Release
         working-directory: main
