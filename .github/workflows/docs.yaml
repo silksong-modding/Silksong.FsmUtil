@@ -1,0 +1,39 @@
+name: docs
+
+on:
+  push:
+    branches: [ main, docs ]
+
+jobs:
+  docfx:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main
+
+      - name: Checkout docs
+        uses: actions/checkout@v4
+        with:
+          ref: docs
+          path: main/docs
+
+      - name: Install dependencies main
+        run: dotnet restore
+        shell: bash
+        working-directory: main
+
+      - name: Build docs
+        uses: nunit/docfx-action@v3.4.2
+        with:
+          args: main/docs/docfx.json
+
+      - name: Publish
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: main/docs/_site
+          force_orphan: true

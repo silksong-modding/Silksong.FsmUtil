@@ -14,6 +14,25 @@ public static class FsmUtil
     #region Get a FSM
 
     /// <summary>
+    ///     Locates a PlayMakerFSM by name.
+    /// </summary>
+    /// <param name="go">The GameObject to search on</param>
+    /// <param name="fsmName">The name of the FSM</param>
+    /// <returns>The found FSM, null if not found</returns>
+    [PublicAPI]
+    public static PlayMakerFSM? GetFsm(this GameObject go, string fsmName)
+    {
+        foreach (PlayMakerFSM fsm in go.GetComponents<PlayMakerFSM>())
+        {
+            if (fsm.FsmName == fsmName)
+            {
+                return fsm;
+            }
+        }
+        return null;
+    }
+
+    /// <summary>
     ///     Locates a PlayMakerFSM by name and preprocesses it.
     /// </summary>
     /// <param name="go">The GameObject to search on</param>
