@@ -3,7 +3,7 @@
     {
       "src": [
         {
-          "files": ["**.csproj"],
+          "files": ["bin/Release/**.dll"],
           "src": ".."
         }
       ],
