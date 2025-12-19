@@ -50,7 +50,7 @@ jobs:
       - name: Upload assets
         uses: actions/upload-pages-artifact@v4
         with:
-          path: docs/_site
+          path: main/docs/_site
 
       - name: Deploy
         id: deployment
