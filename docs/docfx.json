@@ -3,7 +3,7 @@
     {
       "src": [
         {
-          "files": ["Silksong.FsmUtil/bin/Release/**/Silksong.FsmUtil.dll"],
+          "files": ["bin/Release/**/Silksong.FsmUtil.dll"],
           "src": ".."
         }
       ],
