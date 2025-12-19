@@ -2,11 +2,24 @@ name: docs
 
 on:
   push:
-    branches: [ main, docs ]
+    branches: [main]
+
+permissions:
+  actions: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   docfx:
     runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.output.page_url }}
 
     steps:
       - name: Checkout main
@@ -15,25 +28,20 @@ jobs:
           ref: main
           path: main
 
-      - name: Checkout docs
-        uses: actions/checkout@v4
-        with:
-          ref: docs
-          path: main/docs
-
-      - name: Install dependencies main
-        run: dotnet restore
-        shell: bash
+      - name: Build main
+        run: dotnet build -c Release
         working-directory: main
 
       - name: Build docs
-        uses: nunit/docfx-action@v3.4.2
-        with:
-          args: main/docs/docfx.json
+        run: dnx docfx --yes
+        working-directory: docs
+        continue-on-error: false
 
-      - name: Publish
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Upload assets
+        uses: actions/upload-pages-artifact@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: main/docs/_site
-          force_orphan: true
+          path: docs/_site
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
