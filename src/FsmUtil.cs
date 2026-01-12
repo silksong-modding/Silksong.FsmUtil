@@ -45,7 +45,10 @@ public static class FsmUtil
         {
             if (fsm.FsmName == fsmName)
             {
-                fsm.Preprocess();
+                if (!fsm.Fsm.preprocessed)
+                {
+                    fsm.Preprocess();
+                }
                 return fsm;
             }
         }
