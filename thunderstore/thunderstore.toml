@@ -1,5 +1,5 @@
 ﻿[config]
-schemaVersion = "0.3.6"
+schemaVersion = "0.3.7"
 
 [package]
 # The name of the team you are publishing as
