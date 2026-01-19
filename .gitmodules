@@ -1,0 +1,3 @@
+[submodule "docs/silksong-modding-style-docfx"]
+	path = docs/silksong-modding-style-docfx
+	url = https://github.com/silksong-modding/silksong-modding-style-docfx.git

@@ -25,8 +25,7 @@ jobs:
       - name: Checkout main
         uses: actions/checkout@v4
         with:
-          ref: main
-          path: main
+          submodules: true
 
       # apparently this provides `dnx`
       - name: Setup .NET
@@ -36,17 +35,16 @@ jobs:
 
       - name: Build main
         run: dotnet build -c Release
-        working-directory: main
 
       - name: Build docs
         run: dnx docfx --yes
-        working-directory: main/docs
+        working-directory: docs
         continue-on-error: false
 
       - name: Upload assets
         uses: actions/upload-pages-artifact@v4
         with:
-          path: main/docs/_site
+          path: docs/_site
 
       - name: Deploy
         id: deployment

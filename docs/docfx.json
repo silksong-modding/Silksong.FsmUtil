@@ -29,12 +29,12 @@
       }
     ],
     "output": "_site",
-    "template": ["default", "modern"],
+    "template": ["default", "modern", "silksong-modding-style-docfx"],
     "globalMetadata": {
-      "_appName": "",
-      "_appTitle": "",
+      "_appName": "FsmUtil",
+      "_appTitle": "FsmUtil",
       "_enableSearch": true,
-      "pdf": true
+      "pdf": false
     }
   }
 }
