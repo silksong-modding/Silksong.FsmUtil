@@ -6,13 +6,13 @@ This is a library for mods to make FSM edits easier.
 
 To add Silksong.FsmUtil to your mod, add the following line to your .csproj:
 ```
-<PackageReference Include="Silksong.FsmUtil" Version="0.3.5" />
+<PackageReference Include="Silksong.FsmUtil" Version="0.3.6" />
 ```
 The most up to date version number can be retrieved from [Nuget](https://www.nuget.org/packages/Silksong.FsmUtil).
 
 You will also need to add a dependency to your thunderstore.toml:
 ```
-silksong_modding-FsmUtil = "0.3.5"
+silksong_modding-FsmUtil = "0.3.6"
 ```
 The version number does not matter hugely, but the most up to date number can be retrieved from
 [Thunderstore](https://thunderstore.io/c/hollow-knight-silksong/p/silksong_modding/FsmUtil/).
@@ -25,6 +25,6 @@ onto your plugin class, below the BepInAutoPlugin attribute.
 ```
 
 # EUPL
-                      Copyright (c) 2025 silksong-modding
+                      Copyright (c) 2026 silksong-modding
                       Licensed under the EUPL-1.2
 https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12

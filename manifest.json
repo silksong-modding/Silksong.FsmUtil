@@ -1,9 +1,0 @@
-{
-  "website_url": "https://github.com/silksong-modding/Silksong.FsmUtil",
-  "name": "FsmUtil",
-  "description": "A library for mods to easily make changes to PlayMakerFSMs.",
-  "version_number": "0.3.5",
-  "dependencies": [
-    "BepInEx-BepInExPack_Silksong-5.4.2304"
-  ]
-}

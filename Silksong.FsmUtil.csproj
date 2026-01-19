@@ -1,85 +1,95 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
     <!-- 
     Imports silksong path properties only if present in order to allow CI builds. The file should be gitignored.
     If you are checking out from git and need to create a new one, you can use `dotnet new silksongpath` to generate one.
     -->
-    <Import Condition="Exists('SilksongPath.props')" Project="SilksongPath.props" />
-
+    <Import Condition="Exists('SilksongPath.props')" Project="SilksongPath.props"/>
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
-        <RestoreAdditionalProjectSources>
-            https://nuget.bepinex.dev/v3/index.json
-        </RestoreAdditionalProjectSources>
-        <!--Allow access of private members at runtime.-->
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <!--Shortens and anonymizes paths in debug symbols relative to the project directory. Breakpoints will not work in Visual Studio, however.-->
+        <EnableNETAnalyzers>True</EnableNETAnalyzers>
+        <AnalysisMode>recommended</AnalysisMode>
+        <!-- Ignore warning about processor architecture mismatch with PlayMaker ConditionalExpression -->
+        <NoWarn>$(NoWarn);MSB3270</NoWarn>
+
+        <RestorePackagesWithLockFile>True</RestorePackagesWithLockFile>
+        <RestoreLockedMode Condition="'$(CI)' == 'true'">True</RestoreLockedMode>
+
+        <!-- Shortens and anonymizes paths in debug symbols relative to the project directory. Breakpoints will not work, however. -->
         <PathMap Condition="'$(Configuration)' == 'Release'">$(MSBuildProjectDirectory)=/</PathMap>
-        <!--Create docs-->
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageIcon>icon.png</PackageIcon>
+        <RepositoryUrl>https://github.com/silksong-modding/Silksong.FsmUtil</RepositoryUrl>
     </PropertyGroup>
-
     <PropertyGroup>
-        <!--These properties will control the generated plugin info. Version is also used by various parts of the build system.-->
-        <AssemblyTitle>Silksong.FsmUtil</AssemblyTitle>
-        <Version>0.3.5</Version>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <PackageReference Include="BepInEx.Analyzers" Version="1.0.8" PrivateAssets="all" />
-        <PackageReference Include="BepInEx.Core" Version="5.4.21" />
-        <PackageReference Include="Hamunii.BepInEx.AutoPlugin" Version="2.0.1" PrivateAssets="all"/>
-        <PackageReference Include="UnityEngine.Modules" Version="6000.0.50" IncludeAssets="compile" />
-        <!--If you're unable resolve this dependency, check that you're using the nuget v3 package feed instead of v2.-->
-        <PackageReference Include="Silksong.GameLibs" Version="1.1.0-silksong1.0.28714"/>
-    </ItemGroup>
-
-    <Target Name="CopyMod" AfterTargets="PostBuildEvent" Condition="'$(SilksongFolder)' != ''">
-        <ItemGroup>
-            <Binaries Include="$(TargetPath)"/>
-            <Binaries Include="$(TargetDir)/$(TargetName).pdb"/>
-            <Binaries Include="$(TargetDir)/$(TargetName).xml"/>
-        </ItemGroup>
-
-        <Copy SourceFiles="@(Binaries)" DestinationFolder="$(SilksongFolder)/BepInEx/plugins/$(TargetName)" />
-
-        <ItemGroup>
-            <ArchiveContent Include="@(Binaries)"/>
-            <ArchiveContent Include="$(ProjectDir)/manifest.json"/>
-            <ArchiveContent Include="$(ProjectDir)/icon.png"/>
-            <ArchiveContent Include="$(ProjectDir)/README.md"/>
-        </ItemGroup>
-        <PropertyGroup>
-            <ExportFolder>bin/Publish</ExportFolder>
-        </PropertyGroup>
-
-        <RemoveDir Directories="$(IntermediateOutputPath)/archive"/>
-        <MakeDir Directories="$(ExportFolder)"/>
-        <Copy SourceFiles="@(ArchiveContent)" DestinationFolder="$(IntermediateOutputPath)/archive"/>
-        <ZipDirectory SourceDirectory="$(IntermediateOutputPath)/archive" DestinationFile="$(ExportFolder)/$(TargetName).zip" Overwrite="True"/>
-    </Target>
-
-    <ItemGroup>
-        <None Include="$(ProjectDir)/icon.png" Pack="true" PackagePath="\"/>
-        <None Include="$(ProjectDir)/LICENSE" Pack="true" PackagePath="\"/>
-        <None Include="$(ProjectDir)/README.md" Pack="true" PackagePath="\"/>
-    </ItemGroup>
-    <PropertyGroup>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <!--<GeneratePackageOnBuild>true</GeneratePackageOnBuild>-->
         <Title>$(AssemblyTitle)</Title>
         <PackageId>$(AssemblyTitle)</PackageId>
         <PackageVersion>$(Version)</PackageVersion>
         <Authors>silksong-modding</Authors>
         <Description>This is a library for mods to make FSM edits easier.</Description>
-        <Copyright>Copyright (c) silksong-modding 2025</Copyright>
+        <Copyright>Copyright (c) silksong-modding 2026</Copyright>
         <PackageProjectUrl>https://github.com/silksong-modding/Silksong.FsmUtil</PackageProjectUrl>
-        <PackageIcon>icon.png</PackageIcon>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageLicenseExpression>EUPL-1.2</PackageLicenseExpression>
-        <RepositoryUrl>https://github.com/silksong-modding/Silksong.FsmUtil</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageTags>play;maker;playmaker;fsm;playmakerfsm;hutong;games;hutonggames</PackageTags>
     </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="BepInEx.Analyzers" Version="1.0.8" PrivateAssets="all"/>
+        <PackageReference Include="BepInEx.Core" Version="5.4.21"/>
+        <PackageReference Include="HarmonyX" Version="2.9.0"/>
+        <PackageReference Include="Harmonize" Version="1.0.3" PrivateAssets="all"/>
+        <PackageReference Include="Hamunii.BepInEx.AutoPlugin" Version="2.1.0" PrivateAssets="all"/>
+        <PackageReference Include="Microsoft.Unity.Analyzers" Version="1.25.0" PrivateAssets="all"/>
+        <PackageReference
+                Include="UnityEngine.Modules"
+                Version="6000.0.50"
+                IncludeAssets="compile"
+        />
+        <PackageReference
+                Include="Silksong.GameLibs"
+                Version="*-*"
+                PrivateAssets="all"
+
+        />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Remove="thunderstore/temp;thunderstore/dist"/>
+        <None Include="README.md" Pack="True" PackagePath="README.md"/>
+        <None Include="thunderstore/icon.png" Pack="True" PackagePath="icon.png"/>
+    </ItemGroup>
+
+    <Target Name="CopyAndPackageMod" AfterTargets="PostBuildEvent">
+        <ItemGroup>
+            <Binaries Include="$(TargetPath)" LocalDir="/" PackDir="/"/>
+            <Binaries Include="$(TargetDir)/$(TargetName).pdb" LocalDir="/" PackDir="/"/>
+        </ItemGroup>
+        <PropertyGroup>
+            <ThunderstoreDir>$(ProjectDir)/thunderstore</ThunderstoreDir>
+        </PropertyGroup>
+
+        <!-- Local install -->
+        <Copy
+                SourceFiles="@(Binaries)"
+                DestinationFolder="$(SilksongPluginsFolder)/silksong_modding-$(AssemblyTitle)/%(Binaries.LocalDir)"
+                Condition="'$(SilksongPluginsFolder)' != '' And Exists('$(SilksongPluginsFolder)')"
+        />
+
+        <!-- Thunderstore packaging -->
+        <RemoveDir Directories="$(ThunderstoreDir)/temp;$(ThunderstoreDir)/dist"/>
+        <MakeDir Directories="$(ThunderstoreDir)/temp"/>
+        <Copy
+                SourceFiles="@(Binaries)"
+                DestinationFolder="$(ThunderstoreDir)/temp/%(Binaries.PackDir)"
+        />
+        <Exec Command="dotnet tool restore"/>
+        <Exec
+                Command="dotnet tcli build --config-path &quot;$(ThunderstoreDir)/thunderstore.toml&quot; --package-name &quot;$(AssemblyTitle)&quot; --package-version $(Version)"
+                StandardOutputImportance="High"
+                StandardErrorImportance="High"
+        />
+    </Target>
 </Project>
