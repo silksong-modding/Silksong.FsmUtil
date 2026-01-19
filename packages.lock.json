@@ -26,9 +26,9 @@
       },
       "Harmonize": {
         "type": "Direct",
-        "requested": "[1.0.3, )",
-        "resolved": "1.0.3",
-        "contentHash": "jkcOJdYmQrFAwIanmaRiRhYdJnsjtczrzOdwcUU67mbx23e/cHZRErryfdWvASGjXQtDYfjEWNfxHml4DtkDVA=="
+        "requested": "[1.0.5, )",
+        "resolved": "1.0.5",
+        "contentHash": "wRA1i6hDNM8NZy40FBVp1xawpfnJdSt/GXGe/mVtzbq8jDN+aa5eY0TxZ13p8SvvIwPDxIK50firGNsq/9+8hQ=="
       },
       "HarmonyX": {
         "type": "Direct",
