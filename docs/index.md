@@ -12,13 +12,13 @@ With this, it's easy to:
 
 To add Silksong.FsmUtil to your mod, add the following line to your .csproj:
 ```
-<PackageReference Include="Silksong.FsmUtil" Version="0.3.8" />
+<PackageReference Include="Silksong.FsmUtil" Version="0.3.9" />
 ```
 The most up to date version number can be retrieved from [Nuget](https://www.nuget.org/packages/Silksong.FsmUtil).
 
 You will also need to add a dependency to your thunderstore.toml:
 ```
-silksong_modding-FsmUtil = "0.3.8"
+silksong_modding-FsmUtil = "0.3.9"
 ```
 The version number does not matter hugely, but the most up to date number can be retrieved from
 [Thunderstore](https://thunderstore.io/c/hollow-knight-silksong/p/silksong_modding/FsmUtil/).
