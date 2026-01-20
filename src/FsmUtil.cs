@@ -453,20 +453,51 @@ public static class FsmUtil
     /// <param name="stateName">The name of the state in which the method is added</param>
     /// <param name="method">The method that will be invoked with the action as the parameter</param>
     [PublicAPI]
+    [Obsolete("In a future update, the method here will no longer take a parameter. Please use the `AddLambdaMethod` extension method instead! (Though that one's parameter is the `Finish` method.)")]
     public static void AddMethod(this PlayMakerFSM fsm, string stateName, Action<FsmStateAction> method) => fsm.GetState(stateName)!.AddMethod(method);
 
     /// <inheritdoc cref="AddMethod(PlayMakerFSM, string, Action{FsmStateAction})"/>
     [PublicAPI]
+    [Obsolete("In a future update, the method here will no longer take a parameter. Please use the `AddLambdaMethod` extension method instead! (Though that one's parameter is the `Finish` method.)")]
     public static void AddMethod(this Fsm fsm, string stateName, Action<FsmStateAction> method) => fsm.GetState(stateName)!.AddMethod(method);
 
     /// <inheritdoc cref="AddMethod(PlayMakerFSM, string, Action{FsmStateAction})"/>
     /// <param name="state">The fsm state</param>
     /// <param name="method">The method that will be invoked with the action as the parameter</param>
     [PublicAPI]
+    [Obsolete("In a future update, the method here will no longer take a parameter. Please use the `AddLambdaMethod` extension method instead! (Though that one's parameter is the `Finish` method.)")]
     public static void AddMethod(this FsmState state, Action<FsmStateAction> method)
     {
         DelegateAction<FsmStateAction> action = new DelegateAction<FsmStateAction> { Method = method };
         action.Arg = action;
+        state.AddAction(action);
+    }
+
+    /// <summary>
+    ///     Adds a method in a PlayMakerFSM.
+    /// </summary>
+    /// <param name="fsm">The fsm</param>
+    /// <param name="stateName">The name of the state in which the method is added</param>
+    /// <param name="method">The method that will be invoked</param>
+    /// <param name="everyFrame">If true, execute the function repeatedly on every update frame</param>
+    [PublicAPI]
+    [Obsolete("In a future update, this method will be `AddMethod`.")]
+    public static void AddMethod2(this PlayMakerFSM fsm, string stateName, Action method, bool everyFrame = false) => fsm.GetState(stateName)!.AddMethod2(method, everyFrame);
+
+    /// <inheritdoc cref="AddMethod2(PlayMakerFSM, string, Action, bool)"/>
+    [PublicAPI]
+    [Obsolete("In a future update, this method will be `AddMethod`.")]
+    public static void AddMethod2(this Fsm fsm, string stateName, Action method, bool everyFrame = false) => fsm.GetState(stateName)!.AddMethod2(method, everyFrame);
+
+    /// <inheritdoc cref="AddMethod2(PlayMakerFSM, string, Action, bool)"/>
+    /// <param name="state">The fsm state</param>
+    /// <param name="method">The method that will be invoked</param>
+    /// <param name="everyFrame">If true, execute the function repeatedly on every update frame</param>
+    [PublicAPI]
+    [Obsolete("In a future update, this method will be `AddMethod`.")]
+    public static void AddMethod2(this FsmState state, Action method, bool everyFrame = false)
+    {
+        LambdaAction action = new LambdaAction { Method = method };
         state.AddAction(action);
     }
 
@@ -599,18 +630,22 @@ public static class FsmUtil
     /// <param name="index">The index to place the action in</param>
     /// <returns>bool that indicates whether the insertion was successful</returns>
     [PublicAPI]
+    [Obsolete("In a future update, the method here will no longer take a parameter. Please use the `InsertLambdaMethod` extension method instead! (Though that one's parameter is the `Finish` method.)")]
     public static void InsertMethod(this PlayMakerFSM fsm, string stateName, Action<FsmStateAction> method, int index) => fsm.GetState(stateName)!.InsertMethod(index, method);
 
     /// <inheritdoc cref="InsertMethod(PlayMakerFSM, string, Action{FsmStateAction}, int)"/>
     [PublicAPI]
+    [Obsolete("In a future update, the method here will no longer take a parameter. Please use the `InsertLambdaMethod` extension method instead! (Though that one's parameter is the `Finish` method.)")]
     public static void InsertMethod(this PlayMakerFSM fsm, string stateName, int index, Action<FsmStateAction> method) => fsm.GetState(stateName)!.InsertMethod(index, method);
 
     /// <inheritdoc cref="InsertMethod(PlayMakerFSM, string, Action{FsmStateAction}, int)"/>
     [PublicAPI]
+    [Obsolete("In a future update, the method here will no longer take a parameter. Please use the `InsertLambdaMethod` extension method instead! (Though that one's parameter is the `Finish` method.)")]
     public static void InsertMethod(this Fsm fsm, string stateName, Action<FsmStateAction> method, int index) => fsm.GetState(stateName)!.InsertMethod(index, method);
 
     /// <inheritdoc cref="InsertMethod(PlayMakerFSM, string, Action{FsmStateAction}, int)"/>
     [PublicAPI]
+    [Obsolete("In a future update, the method here will no longer take a parameter. Please use the `InsertLambdaMethod` extension method instead! (Though that one's parameter is the `Finish` method.)")]
     public static void InsertMethod(this Fsm fsm, string stateName, int index, Action<FsmStateAction> method) => fsm.GetState(stateName)!.InsertMethod(index, method);
 
     /// <inheritdoc cref="InsertMethod(PlayMakerFSM, string, Action{FsmStateAction}, int)"/>
@@ -618,14 +653,61 @@ public static class FsmUtil
     /// <param name="method">The method that will be invoked</param>
     /// <param name="index">The index to place the action in</param>
     [PublicAPI]
+    [Obsolete("In a future update, the method here will no longer take a parameter. Please use the `InsertLambdaMethod` extension method instead! (Though that one's parameter is the `Finish` method.)")]
     public static void InsertMethod(this FsmState state, Action<FsmStateAction> method, int index) => state.InsertMethod(index, method);
 
     /// <inheritdoc cref="InsertMethod(FsmState, Action{FsmStateAction}, int)"/>
     [PublicAPI]
+    [Obsolete("In a future update, the method here will no longer take a parameter. Please use the `InsertLambdaMethod` extension method instead! (Though that one's parameter is the `Finish` method.)")]
     public static void InsertMethod(this FsmState state, int index, Action<FsmStateAction> method)
     {
         DelegateAction<FsmStateAction> action = new DelegateAction<FsmStateAction> { Method = method };
         action.Arg = action;
+        state.InsertAction(action, index);
+    }
+
+    /// <summary>
+    ///     Inserts a method in a PlayMakerFSM.
+    ///     Trying to insert a method out of bounds will cause a `ArgumentOutOfRangeException`.
+    /// </summary>
+    /// <param name="fsm">The fsm</param>
+    /// <param name="stateName">The name of the state in which the method is added</param>
+    /// <param name="method">The method that will be invoked</param>
+    /// <param name="index">The index to place the action in</param>
+    /// <returns>bool that indicates whether the insertion was successful</returns>
+    [PublicAPI]
+    [Obsolete("In a future update, this method will be `InsertMethod`.")]
+    public static void InsertMethod2(this PlayMakerFSM fsm, string stateName, Action method, int index, bool everyFrame = false) => fsm.GetState(stateName)!.InsertMethod2(index, method, everyFrame);
+
+    /// <inheritdoc cref="InsertMethod2(PlayMakerFSM, string, Action, int, bool)"/>
+    [PublicAPI]
+    [Obsolete("In a future update, this method will be `InsertMethod`.")]
+    public static void InsertMethod2(this PlayMakerFSM fsm, string stateName, int index, Action method, bool everyFrame = false) => fsm.GetState(stateName)!.InsertMethod2(index, method, everyFrame);
+
+    /// <inheritdoc cref="InsertMethod2(PlayMakerFSM, string, Action, int, bool)"/>
+    [PublicAPI]
+    [Obsolete("In a future update, this method will be `InsertMethod`.")]
+    public static void InsertMethod2(this Fsm fsm, string stateName, Action method, int index, bool everyFrame = false) => fsm.GetState(stateName)!.InsertMethod2(index, method, everyFrame);
+
+    /// <inheritdoc cref="InsertMethod2(PlayMakerFSM, string, Action, int, bool)"/>
+    [PublicAPI]
+    [Obsolete("In a future update, this method will be `InsertMethod`.")]
+    public static void InsertMethod2(this Fsm fsm, string stateName, int index, Action method, bool everyFrame = false) => fsm.GetState(stateName)!.InsertMethod2(index, method, everyFrame);
+
+    /// <inheritdoc cref="InsertMethod2(PlayMakerFSM, string, Action, int, bool)"/>
+    /// <param name="state">The fsm state</param>
+    /// <param name="method">The method that will be invoked</param>
+    /// <param name="index">The index to place the action in</param>
+    [PublicAPI]
+    [Obsolete("In a future update, this method will be `InsertMethod`.")]
+    public static void InsertMethod2(this FsmState state, Action method, int index, bool everyFrame = false) => state.InsertMethod2(index, method, everyFrame);
+
+    /// <inheritdoc cref="InsertMethod2(FsmState, Action, int, bool)"/>
+    [PublicAPI]
+    [Obsolete("In a future update, this method will be `InsertMethod`.")]
+    public static void InsertMethod2(this FsmState state, int index, Action method, bool everyFrame = false)
+    {
+        LambdaAction action = new LambdaAction { Method = method };
         state.InsertAction(action, index);
     }
 
@@ -673,9 +755,9 @@ public static class FsmUtil
     /// Insert a method to run before the specified FsmStateAction.
     /// </summary>
     /// <param name="action">The action to insert before.</param>
-    /// <param name="method">The method to execute.
-    /// The argument will be the FsmStateAction which is being added.</param>
+    /// <param name="method">The method to execute. The argument will be the FsmStateAction which is being added.</param>
     [PublicAPI]
+    [Obsolete("In a future update, the method here will no longer take a parameter. Please use the `InsertLambdaMethodBefore` extension method instead! (Though that one's parameter is the `Finish` method.)")]
     public static void InsertMethodBefore(this FsmStateAction action, Action<FsmStateAction> method)
     {
         FsmState state = action.State;
@@ -687,14 +769,68 @@ public static class FsmUtil
     /// Insert a method to run after the specified FsmStateAction.
     /// </summary>
     /// <param name="action">The action to insert after.</param>
-    /// <param name="method">The method to execute.
-    /// The argument will be the FsmStateAction which is being added.</param>
+    /// <param name="method">The method to execute. The argument will be the FsmStateAction which is being added.</param>
     [PublicAPI]
+    [Obsolete("In a future update, the method here will no longer take a parameter. Please use the `InserLambdatMethodAfter` extension method instead! (Though that one's parameter is the `Finish` method.)")]
     public static void InsertMethodAfter(this FsmStateAction action, Action<FsmStateAction> method)
     {
         FsmState state = action.State;
         int idx = Array.IndexOf(state.Actions, action);
         state.InsertMethod(idx + 1, method);
+    }
+
+    /// <summary>
+    /// Insert a method to run before the specified FsmStateAction.
+    /// </summary>
+    /// <param name="action">The action to insert before.</param>
+    /// <param name="method">The method to execute.</param>
+    [PublicAPI]
+    [Obsolete("In a future update, this method will be `InsertMethodBefore`.")]
+    public static void InsertMethod2Before(this FsmStateAction action, Action method)
+    {
+        FsmState state = action.State;
+        int idx = Array.IndexOf(state.Actions, action);
+        state.InsertMethod2(idx, method);
+    }
+
+    /// <summary>
+    /// Insert a method to run after the specified FsmStateAction.
+    /// </summary>
+    /// <param name="action">The action to insert after.</param>
+    /// <param name="method">The method to execute.</param>
+    [PublicAPI]
+    [Obsolete("In a future update, this method will be `InsertMethodAfter`.")]
+    public static void InsertMethod2After(this FsmStateAction action, Action method)
+    {
+        FsmState state = action.State;
+        int idx = Array.IndexOf(state.Actions, action);
+        state.InsertMethod2(idx + 1, method);
+    }
+
+    /// <summary>
+    /// Insert a method to run before the specified FsmStateAction.
+    /// </summary>
+    /// <param name="action">The action to insert before.</param>
+    /// <param name="method">The method to execute. The argument will be the `Finish` method.</param>
+    [PublicAPI]
+    public static void InsertLambdaMethodBefore(this FsmStateAction action, Action<Action> method)
+    {
+        FsmState state = action.State;
+        int idx = Array.IndexOf(state.Actions, action);
+        state.InsertLambdaMethod(idx, method);
+    }
+
+    /// <summary>
+    /// Insert a method to run after the specified FsmStateAction.
+    /// </summary>
+    /// <param name="action">The action to insert after.</param>
+    /// <param name="method">The method to execute. The argument will be the `Finish` method.</param>
+    [PublicAPI]
+    public static void InsertLambdaMethodAfter(this FsmStateAction action, Action<Action> method)
+    {
+        FsmState state = action.State;
+        int idx = Array.IndexOf(state.Actions, action);
+        state.InsertLambdaMethod(idx + 1, method);
     }
 
     /// <summary>

@@ -6,21 +6,56 @@ namespace Silksong.FsmUtil.Actions
     /// <summary>
     ///     An action that executes a single zero-argument function, then exits.
     /// </summary>
-    /// <param name="action">The function to invoke.</param>
-    /// <param name="everyFrame">If true, execute the function repeatedly on every update frame.</param>
-    public class LambdaAction(Action action, bool everyFrame = false) : FsmStateAction
+    public class LambdaAction : FsmStateAction
     {
-        /// <inheritdoc/>
-        public override void OnEnter()
+        /// <summary>
+        ///     The method to invoke.
+        /// </summary>
+        public Action? Method;
+
+        /// <summary>
+        ///     If true, execute the function repeatedly on every update frame.
+        /// </summary>
+        public bool EveryFrame = false;
+
+        /// <summary>
+        ///     Resets the action.
+        /// </summary>
+        public override void Reset()
         {
-            action?.Invoke();
-            if (!everyFrame) Finish();
+            Method = null;
+            EveryFrame = false;
+            base.Reset();
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        ///     Called when the action is being processed.
+        /// </summary>
+        public override void OnEnter()
+        {
+            if (Method != null)
+            {
+                Method.Invoke();
+            }
+
+            if (!EveryFrame)
+            {
+                Finish();
+            }
+        }
+
+        /// <summary>
+        ///     Called every update frame.
+        /// </summary>
         public override void OnUpdate()
         {
-            if (everyFrame) action?.Invoke();
+            if (EveryFrame)
+            {
+                if (Method != null)
+                {
+                    Method.Invoke();
+                }
+            }
         }
     }
 }
