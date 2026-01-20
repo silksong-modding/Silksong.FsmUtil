@@ -1,5 +1,5 @@
 ﻿[config]
-schemaVersion = "0.3.11"
+schemaVersion = "0.3.12"
 
 [package]
 # The name of the team you are publishing as
@@ -40,4 +40,4 @@ communities = [ "hollow-knight-silksong" ]
 
 [publish.categories]
 # available categories can be found at https://github.com/thunderstore-io/ecosystem-schema/blob/master/games/data/hollow-knight-silksong.yml
-hollow-knight-silksong = [ "libraries" ]
+hollow-knight-silksong = [ "mods", "libraries" ]

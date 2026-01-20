@@ -67,6 +67,7 @@
         <ItemGroup>
             <Binaries Include="$(TargetPath)" LocalDir="/" PackDir="/"/>
             <Binaries Include="$(TargetDir)/$(TargetName).pdb" LocalDir="/" PackDir="/"/>
+            <Binaries Include="$(TargetDir)/$(TargetName).xml" LocalDir="/" PackDir="/"/>
         </ItemGroup>
         <PropertyGroup>
             <ThunderstoreDir>$(ProjectDir)/thunderstore</ThunderstoreDir>
