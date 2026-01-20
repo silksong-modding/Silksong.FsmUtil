@@ -2,7 +2,7 @@ using BepInEx;
 
 namespace Silksong.FsmUtil;
 
-[BepInAutoPlugin("io.github.silksong-modding.fsmutil")]
+[BepInAutoPlugin("org.silksong-modding.fsmutil")]
 public partial class Plugin : BaseUnityPlugin
 {
     private void Awake()
