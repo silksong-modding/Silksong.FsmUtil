@@ -22,6 +22,7 @@
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageIcon>icon.png</PackageIcon>
         <RepositoryUrl>https://github.com/silksong-modding/Silksong.FsmUtil</RepositoryUrl>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
     <PropertyGroup>
         <!--<GeneratePackageOnBuild>true</GeneratePackageOnBuild>-->
