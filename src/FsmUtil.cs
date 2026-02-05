@@ -491,7 +491,11 @@ public static class FsmUtil
     [PublicAPI]
     public static void AddMethod(this FsmState state, Action method, bool everyFrame = false)
     {
-        LambdaAction action = new LambdaAction { Method = method };
+        LambdaAction action = new()
+        {
+            Method = method,
+            EveryFrame = everyFrame,
+        };
         state.AddAction(action);
     }
 
@@ -682,6 +686,7 @@ public static class FsmUtil
     /// <param name="state">The fsm state</param>
     /// <param name="method">The method that will be invoked</param>
     /// <param name="index">The index to place the action in</param>
+    /// <param name="everyFrame">Whether to execute 'method' on every update frame</param>
     [PublicAPI]
     public static void InsertMethod(this FsmState state, Action method, int index, bool everyFrame = false) => state.InsertMethod(index, method, everyFrame);
 
@@ -689,7 +694,11 @@ public static class FsmUtil
     [PublicAPI]
     public static void InsertMethod(this FsmState state, int index, Action method, bool everyFrame = false)
     {
-        LambdaAction action = new LambdaAction { Method = method };
+        LambdaAction action = new()
+        {
+            Method = method,
+            EveryFrame = everyFrame,
+        };
         state.InsertAction(action, index);
     }
 
