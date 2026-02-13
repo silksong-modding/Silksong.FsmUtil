@@ -666,6 +666,7 @@ public static class FsmUtil
     /// <param name="stateName">The name of the state in which the method is added</param>
     /// <param name="method">The method that will be invoked</param>
     /// <param name="index">The index to place the action in</param>
+    /// <param name="everyFrame">Whether to execute 'method' on every update frame</param>
     /// <returns>bool that indicates whether the insertion was successful</returns>
     [PublicAPI]
     public static void InsertMethod(this PlayMakerFSM fsm, string stateName, Action method, int index, bool everyFrame = false) => fsm.GetState(stateName)!.InsertMethod(index, method, everyFrame);
@@ -911,6 +912,81 @@ public static class FsmUtil
         {
             action.Init(state);
         }
+    }
+
+    /// <summary>
+    /// Replace all actions of type <typeparamref name="T"/> with new actions.
+    /// </summary>
+    /// <typeparam name="T">The type of actions to replace.</typeparam>
+    /// <param name="state">The state containing actions to replace.</param>
+    /// <param name="newActionGenerator">Function used to generate the new actions.</param>
+    [PublicAPI]
+    public static void ReplaceActionsOfType<T>(this FsmState state, Func<T, FsmStateAction> newActionGenerator)
+        where T : FsmStateAction
+    {
+        for (int i = 0; i < state.actions.Length; i++)
+        {
+            if (state.Actions[i] is T typedAction)
+            {
+                state.ReplaceAction(i, newActionGenerator(typedAction));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Replace the first action of type <typeparamref name="T"/> with a new action.
+    /// </summary>
+    /// <typeparam name="T">The type of the action to replace.</typeparam>
+    /// <param name="state">The state holding the actions.</param>
+    /// <param name="newAction">The new action.</param>
+    [PublicAPI]
+    public static void ReplaceFirstActionOfType<T>(this FsmState state, FsmStateAction newAction) where T : FsmStateAction
+    {
+        int foundIndex = -2;
+
+        for (int i = 0; i < state.actions.Length; i++)
+        {
+            if (state.actions[i] is T)
+            {
+                foundIndex = i;
+                break;
+            }
+        }
+
+        if (foundIndex == -2)
+        {
+            return;
+        }
+
+        state.ReplaceAction(newAction, foundIndex);
+    }
+
+    /// <summary>
+    /// Replace the last action of type <typeparamref name="T"/> with a new action.
+    /// </summary>
+    /// <typeparam name="T">The type of the action to replace.</typeparam>
+    /// <param name="state">The state holding the actions.</param>
+    /// <param name="newAction">The new action.</param>
+    [PublicAPI]
+    public static void ReplaceLastActionOfType<T>(this FsmState state, FsmStateAction newAction) where T : FsmStateAction
+    {
+        int foundIndex = -2;
+
+        for (int i = state.actions.Length - 1; i >= 0; i--)
+        {
+            if (state.actions[i] is T)
+            {
+                foundIndex = i;
+                break;
+            }
+        }
+
+        if (foundIndex == -2)
+        {
+            return;
+        }
+
+        state.ReplaceAction(newAction, foundIndex);
     }
 
     #endregion Replace
