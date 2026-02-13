@@ -12,6 +12,6 @@
     It should follow the format major.minor.patch (semantic versioning). If you publish your mod
     as a library to NuGet, this version will also be used as the package version.
     -->
-    <Version>0.3.12</Version>
+    <Version>0.3.13</Version>
   </PropertyGroup>
 </Project>
