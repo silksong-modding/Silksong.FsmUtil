@@ -116,6 +116,35 @@ public static class FsmUtil
     public static FsmState? GetState(this Fsm fsm, string stateName) => GetItemFromArray(fsm.States, x => x.Name == stateName);
 
     /// <summary>
+    ///     Gets a state in a PlayMakerFSM, throwing an exception if it is not found.
+    /// </summary>
+    /// <param name="fsm">The fsm</param>
+    /// <param name="stateName">The name of the state</param>
+    /// <returns>The found state.</returns>
+    [PublicAPI]
+    public static FsmState MustGetState(this PlayMakerFSM fsm, string stateName)
+    {
+        var s = fsm.GetState(stateName);
+        if (s == null)
+        {
+            throw new InvalidOperationException($"State {stateName} not found in FSM {fsm.FsmName}");
+        }
+        return s;
+    }
+
+    /// <inheritdoc cref="MustGetState(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmState MustGetState(this Fsm fsm, string stateName)
+    {
+        var s = fsm.GetState(stateName);
+        if (s == null)
+        {
+            throw new InvalidOperationException($"State {stateName} not found in FSM {fsm.Name}");
+        }
+        return s;
+    }
+
+    /// <summary>
     ///     Gets a transition in a PlayMakerFSM.
     /// </summary>
     /// <param name="fsm">The fsm</param>
@@ -267,6 +296,72 @@ public static class FsmUtil
     }
 
     #endregion Get
+
+    #region Index
+
+    /// <summary>
+    ///     Finds the index of the first action in a state that matches the predicate.
+    /// </summary>
+    /// <param name="state">The state</param>
+    /// <param name="predicate">The predicate that each action is matched against</param>
+    /// <returns>The index of the matched action, or -1 if it was not found.</returns>
+    [PublicAPI]
+    public static int IndexFirstActionMatching(this FsmState state, Func<FsmStateAction, bool> predicate)
+    {
+        int n = state.actions.Length;
+        for (int i = 0; i < n; i++)
+        {
+            if (predicate(state.actions[i]))
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /// <summary>
+    ///     Finds the index of the last action in a state that matches the predicate.
+    /// </summary>
+    /// <param name="state">The state</param>
+    /// <param name="predicate">The predicate that each action is matched against</param>
+    /// <returns>The index of the matched action, or -1 if it was not found.</returns>
+    [PublicAPI]
+    public static int IndexLastActionMatching(this FsmState state, Func<FsmStateAction, bool> predicate)
+    {
+        int n = state.actions.Length;
+        for (int i = n - 1; i >= 0; i--)
+        {
+            if (predicate(state.actions[i]))
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /// <summary>
+    ///     Finds the index of the first action in a state that is of type <typeparamref name="T" />.
+    /// </summary>
+    /// <param name="state">The state</param>
+    /// <typeparam name="T">The type of action to look for</typeparam>
+    /// <returns>The index of the found action, or -1 if it was not found.</returns>
+    [PublicAPI]
+    public static int IndexFirstActionOfType<T>(this FsmState state)
+        where T : FsmStateAction
+        => state.IndexFirstActionMatching(act => act is T);
+
+    /// <summary>
+    ///     Finds the index of the last action in a state that is of type <typeparamref name="T" />.
+    /// </summary>
+    /// <param name="state">The state</param>
+    /// <typeparam name="T">The type of action to look for</typeparam>
+    /// <returns>The index of the found action, or -1 if it was not found.</returns>
+    [PublicAPI]
+    public static int IndexLastActionOfType<T>(this FsmState state)
+        where T : FsmStateAction
+        => state.IndexLastActionMatching(act => act is T);
+
+    #endregion Index
 
     #region Add
 
@@ -1296,6 +1391,21 @@ public static class FsmUtil
     }
 
     /// <summary>
+    ///     Removes the first action in a state that matches the predicate.
+    /// </summary>
+    /// <param name="state">The state</param>
+    /// <param name="predicate">The predicate that each action is matched against</param>
+    [PublicAPI]
+    public static void RemoveFirstActionMatching(this FsmState state, Func<FsmStateAction, bool> predicate)
+    {
+        int i = state.IndexFirstActionMatching(predicate);
+        if (i != -1)
+        {
+            state.RemoveAction(i);
+        }
+    }
+
+    /// <summary>
     ///     Removes last action of a given type in an FsmState.  
     /// </summary>
     /// <typeparam name="TAction">The type of actions to remove</typeparam>
@@ -1326,6 +1436,21 @@ public static class FsmUtil
         if (lastActionIndex == -1)
             return;
         state.RemoveAction(lastActionIndex);
+    }
+
+    /// <summary>
+    ///     Removes the last action in a state that matches the predicate.
+    /// </summary>
+    /// <param name="state">The state</param>
+    /// <param name="predicate">The predicate that each action is matched against</param>
+    [PublicAPI]
+    public static void RemoveLastActionMatching(this FsmState state, Func<FsmStateAction, bool> predicate)
+    {
+        int i = state.IndexLastActionMatching(predicate);
+        if (i != -1)
+        {
+            state.RemoveAction(i);
+        }
     }
 
     #endregion Remove
