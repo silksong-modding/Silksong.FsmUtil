@@ -152,11 +152,11 @@ public static class FsmUtil
     /// <param name="eventName">The name of the event</param>
     /// <returns>The found transition, null if none are found</returns>
     [PublicAPI]
-    public static FsmTransition? GetTransition(this PlayMakerFSM fsm, string stateName, string eventName) => fsm.GetState(stateName)!.GetTransition(eventName);
+    public static FsmTransition? GetTransition(this PlayMakerFSM fsm, string stateName, string eventName) => fsm.MustGetState(stateName).GetTransition(eventName);
 
     /// <inheritdoc cref="GetTransition(PlayMakerFSM, string, string)"/>
     [PublicAPI]
-    public static FsmTransition? GetTransition(this Fsm fsm, string stateName, string eventName) => fsm.GetState(stateName)!.GetTransition(eventName);
+    public static FsmTransition? GetTransition(this Fsm fsm, string stateName, string eventName) => fsm.MustGetState(stateName).GetTransition(eventName);
 
     /// <inheritdoc cref="GetTransition(PlayMakerFSM, string, string)"/>
     /// <param name="state">The state</param>
@@ -186,11 +186,11 @@ public static class FsmUtil
     /// <param name="index">The index of the action</param>
     /// <returns>The action, null if it can't be found</returns>
     [PublicAPI]
-    public static TAction? GetAction<TAction>(this PlayMakerFSM fsm, string stateName, int index) where TAction : FsmStateAction => fsm.GetState(stateName)!.GetAction<TAction>(index);
+    public static TAction? GetAction<TAction>(this PlayMakerFSM fsm, string stateName, int index) where TAction : FsmStateAction => fsm.MustGetState(stateName).GetAction<TAction>(index);
 
     /// <inheritdoc cref="GetAction{TAction}(PlayMakerFSM, string, int)"/>
     [PublicAPI]
-    public static TAction? GetAction<TAction>(this Fsm fsm, string stateName, int index) where TAction : FsmStateAction => fsm.GetState(stateName)!.GetAction<TAction>(index);
+    public static TAction? GetAction<TAction>(this Fsm fsm, string stateName, int index) where TAction : FsmStateAction => fsm.MustGetState(stateName).GetAction<TAction>(index);
 
     /// <inheritdoc cref="GetAction{TAction}(PlayMakerFSM, string, int)"/>
     /// <param name="state">The state</param>
@@ -200,11 +200,11 @@ public static class FsmUtil
 
     /// <inheritdoc cref="GetAction{TAction}(PlayMakerFSM, string, int)"/>
     [PublicAPI]
-    public static FsmStateAction? GetStateAction(this PlayMakerFSM fsm, string stateName, int index) => fsm.GetState(stateName)!.GetStateAction(index);
+    public static FsmStateAction? GetStateAction(this PlayMakerFSM fsm, string stateName, int index) => fsm.MustGetState(stateName).GetStateAction(index);
 
     /// <inheritdoc cref="GetAction{TAction}(Fsm, string, int)"/>
     [PublicAPI]
-    public static FsmStateAction? GetStateAction(this Fsm fsm, string stateName, int index) => fsm.GetState(stateName)!.GetStateAction(index);
+    public static FsmStateAction? GetStateAction(this Fsm fsm, string stateName, int index) => fsm.MustGetState(stateName).GetStateAction(index);
 
     /// <inheritdoc cref="GetAction{TAction}(FsmState, int)"/>
     [PublicAPI]
@@ -218,11 +218,11 @@ public static class FsmUtil
     /// <param name="stateName">The name of the state</param>
     /// <returns>An array of actions</returns>
     [PublicAPI]
-    public static TAction[] GetActionsOfType<TAction>(this PlayMakerFSM fsm, string stateName) where TAction : FsmStateAction => fsm.GetState(stateName)!.GetActionsOfType<TAction>();
+    public static TAction[] GetActionsOfType<TAction>(this PlayMakerFSM fsm, string stateName) where TAction : FsmStateAction => fsm.MustGetState(stateName).GetActionsOfType<TAction>();
 
     /// <inheritdoc cref="GetActionsOfType{TAction}(PlayMakerFSM, string)"/>
     [PublicAPI]
-    public static TAction[] GetActionsOfType<TAction>(this Fsm fsm, string stateName) where TAction : FsmStateAction => fsm.GetState(stateName)!.GetActionsOfType<TAction>();
+    public static TAction[] GetActionsOfType<TAction>(this Fsm fsm, string stateName) where TAction : FsmStateAction => fsm.MustGetState(stateName).GetActionsOfType<TAction>();
 
     /// <inheritdoc cref="GetActionsOfType{TAction}(PlayMakerFSM, string)"/>
     /// <param name="state">The state</param>
@@ -236,26 +236,18 @@ public static class FsmUtil
     /// <param name="fsm">The fsm</param>
     /// <param name="stateName">The name of the state to get the actions from</param>
     [PublicAPI]
-    public static TAction? GetFirstActionOfType<TAction>(this PlayMakerFSM fsm, string stateName) where TAction : FsmStateAction => fsm.GetState(stateName)!.GetFirstActionOfType<TAction>();
+    public static TAction? GetFirstActionOfType<TAction>(this PlayMakerFSM fsm, string stateName) where TAction : FsmStateAction => fsm.MustGetState(stateName).GetFirstActionOfType<TAction>();
 
     /// <inheritdoc cref="GetFirstActionOfType{TAction}(PlayMakerFSM, string)"/>
     [PublicAPI]
-    public static TAction? GetFirstActionOfType<TAction>(this Fsm fsm, string stateName) where TAction : FsmStateAction => fsm.GetState(stateName)!.GetFirstActionOfType<TAction>();
+    public static TAction? GetFirstActionOfType<TAction>(this Fsm fsm, string stateName) where TAction : FsmStateAction => fsm.MustGetState(stateName).GetFirstActionOfType<TAction>();
 
     /// <inheritdoc cref="GetFirstActionOfType{TAction}(PlayMakerFSM, string)"/>
     /// <param name="state">The fsm state</param>
     [PublicAPI]
     public static TAction? GetFirstActionOfType<TAction>(this FsmState state) where TAction : FsmStateAction
     {
-        int firstActionIndex = -1;
-        for (int i = 0; i < state.Actions.Length; i++)
-        {
-            if (state.Actions[i] is TAction)
-            {
-                firstActionIndex = i;
-                break;
-            }
-        }
+        int firstActionIndex = state.IndexFirstActionOfType<TAction>();
 
         if (firstActionIndex == -1)
             return null;
@@ -269,26 +261,18 @@ public static class FsmUtil
     /// <param name="fsm">The fsm</param>
     /// <param name="stateName">The name of the state to get the actions from</param>
     [PublicAPI]
-    public static TAction? GetLastActionOfType<TAction>(this PlayMakerFSM fsm, string stateName) where TAction : FsmStateAction => fsm.GetState(stateName)!.GetLastActionOfType<TAction>();
+    public static TAction? GetLastActionOfType<TAction>(this PlayMakerFSM fsm, string stateName) where TAction : FsmStateAction => fsm.MustGetState(stateName).GetLastActionOfType<TAction>();
 
     /// <inheritdoc cref="GetLastActionOfType{TAction}(PlayMakerFSM, string)"/>
     [PublicAPI]
-    public static TAction? GetLastActionOfType<TAction>(this Fsm fsm, string stateName) where TAction : FsmStateAction => fsm.GetState(stateName)!.GetLastActionOfType<TAction>();
+    public static TAction? GetLastActionOfType<TAction>(this Fsm fsm, string stateName) where TAction : FsmStateAction => fsm.MustGetState(stateName).GetLastActionOfType<TAction>();
 
     /// <inheritdoc cref="GetLastActionOfType{TAction}(PlayMakerFSM, string)"/>
     /// <param name="state">The fsm state</param>
     [PublicAPI]
     public static TAction? GetLastActionOfType<TAction>(this FsmState state) where TAction : FsmStateAction
     {
-        int lastActionIndex = -1;
-        for (int i = state.Actions.Length - 1; i >= 0; i--)
-        {
-            if (state.Actions[i] is TAction)
-            {
-                lastActionIndex = i;
-                break;
-            }
-        }
+        int lastActionIndex = state.IndexLastActionOfType<TAction>();
 
         if (lastActionIndex == -1)
             return null;
@@ -347,7 +331,6 @@ public static class FsmUtil
     /// <returns>The index of the found action, or -1 if it was not found.</returns>
     [PublicAPI]
     public static int IndexFirstActionOfType<T>(this FsmState state)
-        where T : FsmStateAction
         => state.IndexFirstActionMatching(act => act is T);
 
     /// <summary>
@@ -358,7 +341,6 @@ public static class FsmUtil
     /// <returns>The index of the found action, or -1 if it was not found.</returns>
     [PublicAPI]
     public static int IndexLastActionOfType<T>(this FsmState state)
-        where T : FsmStateAction
         => state.IndexLastActionMatching(act => act is T);
 
     #endregion Index
@@ -443,11 +425,11 @@ public static class FsmUtil
     /// <param name="toState">The name of the new state</param>
     /// <returns>The event of the transition</returns>
     [PublicAPI]
-    public static FsmEvent AddTransition(this PlayMakerFSM fsm, string stateName, string eventName, string toState) => fsm.GetState(stateName)!.AddTransition(eventName, toState);
+    public static FsmEvent AddTransition(this PlayMakerFSM fsm, string stateName, string eventName, string toState) => fsm.MustGetState(stateName).AddTransition(eventName, toState);
 
     /// <inheritdoc cref="AddTransition(PlayMakerFSM, string, string, string)"/>
     [PublicAPI]
-    public static FsmEvent AddTransition(this Fsm fsm, string stateName, string eventName, string toState) => fsm.GetState(stateName)!.AddTransition(eventName, toState);
+    public static FsmEvent AddTransition(this Fsm fsm, string stateName, string eventName, string toState) => fsm.MustGetState(stateName).AddTransition(eventName, toState);
 
     /// <inheritdoc cref="AddTransition(PlayMakerFSM, string, string, string)"/>
     /// <param name="state">The state from which the transition starts</param>
@@ -499,11 +481,11 @@ public static class FsmUtil
     /// <param name="stateName">The name of the state in which the action is added</param>
     /// <param name="action">The action</param>
     [PublicAPI]
-    public static void AddAction(this PlayMakerFSM fsm, string stateName, FsmStateAction action) => fsm.GetState(stateName)!.AddAction(action);
+    public static void AddAction(this PlayMakerFSM fsm, string stateName, FsmStateAction action) => fsm.MustGetState(stateName).AddAction(action);
 
     /// <inheritdoc cref="AddAction(PlayMakerFSM, string, FsmStateAction)"/>
     [PublicAPI]
-    public static void AddAction(this Fsm fsm, string stateName, FsmStateAction action) => fsm.GetState(stateName)!.AddAction(action);
+    public static void AddAction(this Fsm fsm, string stateName, FsmStateAction action) => fsm.MustGetState(stateName).AddAction(action);
 
     /// <inheritdoc cref="AddAction(PlayMakerFSM, string, FsmStateAction)"/>
     /// <param name="state">The fsm state</param>
@@ -523,11 +505,11 @@ public static class FsmUtil
     /// <param name="stateName">The name of the state in which the action is added</param>
     /// <param name="actions">The actions</param>
     [PublicAPI]
-    public static void AddActions(this PlayMakerFSM fsm, string stateName, params FsmStateAction[] actions) => fsm.GetState(stateName)!.AddActions(actions);
+    public static void AddActions(this PlayMakerFSM fsm, string stateName, params FsmStateAction[] actions) => fsm.MustGetState(stateName).AddActions(actions);
 
     /// <inheritdoc cref="AddActions(PlayMakerFSM, string, FsmStateAction[])"/>
     [PublicAPI]
-    public static void AddActions(this Fsm fsm, string stateName, params FsmStateAction[] actions) => fsm.GetState(stateName)!.AddActions(actions);
+    public static void AddActions(this Fsm fsm, string stateName, params FsmStateAction[] actions) => fsm.MustGetState(stateName).AddActions(actions);
 
     /// <inheritdoc cref="AddActions(PlayMakerFSM, string, FsmStateAction[])"/>
     /// <param name="state">The fsm state</param>
@@ -548,11 +530,11 @@ public static class FsmUtil
     /// <param name="stateName">The name of the state in which the method is added</param>
     /// <param name="method">The method that will be invoked with the action as the parameter</param>
     [PublicAPI]
-    public static void AddMethod(this PlayMakerFSM fsm, string stateName, Action<FsmStateAction> method) => fsm.GetState(stateName)!.AddMethod(method);
+    public static void AddMethod(this PlayMakerFSM fsm, string stateName, Action<FsmStateAction> method) => fsm.MustGetState(stateName).AddMethod(method);
 
     /// <inheritdoc cref="AddMethod(PlayMakerFSM, string, Action{FsmStateAction})"/>
     [PublicAPI]
-    public static void AddMethod(this Fsm fsm, string stateName, Action<FsmStateAction> method) => fsm.GetState(stateName)!.AddMethod(method);
+    public static void AddMethod(this Fsm fsm, string stateName, Action<FsmStateAction> method) => fsm.MustGetState(stateName).AddMethod(method);
 
     /// <inheritdoc cref="AddMethod(PlayMakerFSM, string, Action{FsmStateAction})"/>
     /// <param name="state">The fsm state</param>
@@ -573,11 +555,11 @@ public static class FsmUtil
     /// <param name="method">The method that will be invoked</param>
     /// <param name="everyFrame">If true, execute the function repeatedly on every update frame</param>
     [PublicAPI]
-    public static void AddMethod(this PlayMakerFSM fsm, string stateName, Action method, bool everyFrame = false) => fsm.GetState(stateName)!.AddMethod(method, everyFrame);
+    public static void AddMethod(this PlayMakerFSM fsm, string stateName, Action method, bool everyFrame = false) => fsm.MustGetState(stateName).AddMethod(method, everyFrame);
 
     /// <inheritdoc cref="AddMethod(PlayMakerFSM, string, Action, bool)"/>
     [PublicAPI]
-    public static void AddMethod(this Fsm fsm, string stateName, Action method, bool everyFrame = false) => fsm.GetState(stateName)!.AddMethod(method, everyFrame);
+    public static void AddMethod(this Fsm fsm, string stateName, Action method, bool everyFrame = false) => fsm.MustGetState(stateName).AddMethod(method, everyFrame);
 
     /// <inheritdoc cref="AddMethod(PlayMakerFSM, string, Action, bool)"/>
     /// <param name="state">The fsm state</param>
@@ -601,11 +583,11 @@ public static class FsmUtil
     /// <param name="stateName">The name of the state in which the method is added</param>
     /// <param name="method">The method that will be invoked with the finish action as the parameter</param>
     [PublicAPI]
-    public static void AddLambdaMethod(this PlayMakerFSM fsm, string stateName, Action<Action> method) => fsm.GetState(stateName)!.AddLambdaMethod(method);
+    public static void AddLambdaMethod(this PlayMakerFSM fsm, string stateName, Action<Action> method) => fsm.MustGetState(stateName).AddLambdaMethod(method);
 
     /// <inheritdoc cref="AddLambdaMethod(PlayMakerFSM, string, Action{Action})"/>
     [PublicAPI]
-    public static void AddLambdaMethod(this Fsm fsm, string stateName, Action<Action> method) => fsm.GetState(stateName)!.AddLambdaMethod(method);
+    public static void AddLambdaMethod(this Fsm fsm, string stateName, Action<Action> method) => fsm.MustGetState(stateName).AddLambdaMethod(method);
 
     /// <inheritdoc cref="AddLambdaMethod(PlayMakerFSM, string, Action{Action})"/>
     /// <param name="state">The fsm state</param>
@@ -653,19 +635,19 @@ public static class FsmUtil
     /// <param name="index">The index to place the action in</param>
     /// <returns>bool that indicates whether the insertion was successful</returns>
     [PublicAPI]
-    public static void InsertAction(this PlayMakerFSM fsm, string stateName, FsmStateAction action, int index) => fsm.GetState(stateName)!.InsertAction(index, action);
+    public static void InsertAction(this PlayMakerFSM fsm, string stateName, FsmStateAction action, int index) => fsm.MustGetState(stateName).InsertAction(index, action);
 
     /// <inheritdoc cref="InsertAction(PlayMakerFSM, string, FsmStateAction, int)"/>
     [PublicAPI]
-    public static void InsertAction(this PlayMakerFSM fsm, string stateName, int index, FsmStateAction action) => fsm.GetState(stateName)!.InsertAction(index, action);
+    public static void InsertAction(this PlayMakerFSM fsm, string stateName, int index, FsmStateAction action) => fsm.MustGetState(stateName).InsertAction(index, action);
 
     /// <inheritdoc cref="InsertAction(PlayMakerFSM, string, FsmStateAction, int)"/>
     [PublicAPI]
-    public static void InsertAction(this Fsm fsm, string stateName, FsmStateAction action, int index) => fsm.GetState(stateName)!.InsertAction(index, action);
+    public static void InsertAction(this Fsm fsm, string stateName, FsmStateAction action, int index) => fsm.MustGetState(stateName).InsertAction(index, action);
 
     /// <inheritdoc cref="InsertAction(PlayMakerFSM, string, FsmStateAction, int)"/>
     [PublicAPI]
-    public static void InsertAction(this Fsm fsm, string stateName, int index, FsmStateAction action) => fsm.GetState(stateName)!.InsertAction(index, action);
+    public static void InsertAction(this Fsm fsm, string stateName, int index, FsmStateAction action) => fsm.MustGetState(stateName).InsertAction(index, action);
 
     /// <inheritdoc cref="InsertAction(PlayMakerFSM, string, FsmStateAction, int)"/>
     /// <param name="state">The fsm state</param>
@@ -693,11 +675,11 @@ public static class FsmUtil
     /// <param name="index">The index to place the actions in</param>
     /// <returns>bool that indicates whether the insertion was successful</returns>
     [PublicAPI]
-    public static void InsertActions(this PlayMakerFSM fsm, string stateName, int index, params FsmStateAction[] actions) => fsm.GetState(stateName)!.InsertActions(index, actions);
+    public static void InsertActions(this PlayMakerFSM fsm, string stateName, int index, params FsmStateAction[] actions) => fsm.MustGetState(stateName).InsertActions(index, actions);
 
     /// <inheritdoc cref="InsertActions(PlayMakerFSM, string, int, FsmStateAction[])"/>
     [PublicAPI]
-    public static void InsertActions(this Fsm fsm, string stateName, int index, params FsmStateAction[] actions) => fsm.GetState(stateName)!.InsertActions(index, actions);
+    public static void InsertActions(this Fsm fsm, string stateName, int index, params FsmStateAction[] actions) => fsm.MustGetState(stateName).InsertActions(index, actions);
 
     /// <inheritdoc cref="InsertActions(PlayMakerFSM, string, int, FsmStateAction[])"/>
     /// <param name="state">The fsm state</param>
@@ -723,19 +705,19 @@ public static class FsmUtil
     /// <param name="index">The index to place the action in</param>
     /// <returns>bool that indicates whether the insertion was successful</returns>
     [PublicAPI]
-    public static void InsertMethod(this PlayMakerFSM fsm, string stateName, Action<FsmStateAction> method, int index) => fsm.GetState(stateName)!.InsertMethod(index, method);
+    public static void InsertMethod(this PlayMakerFSM fsm, string stateName, Action<FsmStateAction> method, int index) => fsm.MustGetState(stateName).InsertMethod(index, method);
 
     /// <inheritdoc cref="InsertMethod(PlayMakerFSM, string, Action{FsmStateAction}, int)"/>
     [PublicAPI]
-    public static void InsertMethod(this PlayMakerFSM fsm, string stateName, int index, Action<FsmStateAction> method) => fsm.GetState(stateName)!.InsertMethod(index, method);
+    public static void InsertMethod(this PlayMakerFSM fsm, string stateName, int index, Action<FsmStateAction> method) => fsm.MustGetState(stateName).InsertMethod(index, method);
 
     /// <inheritdoc cref="InsertMethod(PlayMakerFSM, string, Action{FsmStateAction}, int)"/>
     [PublicAPI]
-    public static void InsertMethod(this Fsm fsm, string stateName, Action<FsmStateAction> method, int index) => fsm.GetState(stateName)!.InsertMethod(index, method);
+    public static void InsertMethod(this Fsm fsm, string stateName, Action<FsmStateAction> method, int index) => fsm.MustGetState(stateName).InsertMethod(index, method);
 
     /// <inheritdoc cref="InsertMethod(PlayMakerFSM, string, Action{FsmStateAction}, int)"/>
     [PublicAPI]
-    public static void InsertMethod(this Fsm fsm, string stateName, int index, Action<FsmStateAction> method) => fsm.GetState(stateName)!.InsertMethod(index, method);
+    public static void InsertMethod(this Fsm fsm, string stateName, int index, Action<FsmStateAction> method) => fsm.MustGetState(stateName).InsertMethod(index, method);
 
     /// <inheritdoc cref="InsertMethod(PlayMakerFSM, string, Action{FsmStateAction}, int)"/>
     /// <param name="state">The fsm state</param>
@@ -764,19 +746,19 @@ public static class FsmUtil
     /// <param name="everyFrame">Whether to execute 'method' on every update frame</param>
     /// <returns>bool that indicates whether the insertion was successful</returns>
     [PublicAPI]
-    public static void InsertMethod(this PlayMakerFSM fsm, string stateName, Action method, int index, bool everyFrame = false) => fsm.GetState(stateName)!.InsertMethod(index, method, everyFrame);
+    public static void InsertMethod(this PlayMakerFSM fsm, string stateName, Action method, int index, bool everyFrame = false) => fsm.MustGetState(stateName).InsertMethod(index, method, everyFrame);
 
     /// <inheritdoc cref="InsertMethod(PlayMakerFSM, string, Action, int, bool)"/>
     [PublicAPI]
-    public static void InsertMethod(this PlayMakerFSM fsm, string stateName, int index, Action method, bool everyFrame = false) => fsm.GetState(stateName)!.InsertMethod(index, method, everyFrame);
+    public static void InsertMethod(this PlayMakerFSM fsm, string stateName, int index, Action method, bool everyFrame = false) => fsm.MustGetState(stateName).InsertMethod(index, method, everyFrame);
 
     /// <inheritdoc cref="InsertMethod(PlayMakerFSM, string, Action, int, bool)"/>
     [PublicAPI]
-    public static void InsertMethod(this Fsm fsm, string stateName, Action method, int index, bool everyFrame = false) => fsm.GetState(stateName)!.InsertMethod(index, method, everyFrame);
+    public static void InsertMethod(this Fsm fsm, string stateName, Action method, int index, bool everyFrame = false) => fsm.MustGetState(stateName).InsertMethod(index, method, everyFrame);
 
     /// <inheritdoc cref="InsertMethod(PlayMakerFSM, string, Action, int, bool)"/>
     [PublicAPI]
-    public static void InsertMethod(this Fsm fsm, string stateName, int index, Action method, bool everyFrame = false) => fsm.GetState(stateName)!.InsertMethod(index, method, everyFrame);
+    public static void InsertMethod(this Fsm fsm, string stateName, int index, Action method, bool everyFrame = false) => fsm.MustGetState(stateName).InsertMethod(index, method, everyFrame);
 
     /// <inheritdoc cref="InsertMethod(PlayMakerFSM, string, Action, int, bool)"/>
     /// <param name="state">The fsm state</param>
@@ -808,19 +790,19 @@ public static class FsmUtil
     /// <param name="index">The index to place the action in</param>
     /// <returns>bool that indicates whether the insertion was successful</returns>
     [PublicAPI]
-    public static void InsertLambdaMethod(this PlayMakerFSM fsm, string stateName, Action<Action> method, int index) => fsm.GetState(stateName)!.InsertLambdaMethod(index, method);
+    public static void InsertLambdaMethod(this PlayMakerFSM fsm, string stateName, Action<Action> method, int index) => fsm.MustGetState(stateName).InsertLambdaMethod(index, method);
 
     /// <inheritdoc cref="InsertLambdaMethod(PlayMakerFSM, string, Action{Action}, int)"/>
     [PublicAPI]
-    public static void InsertLambdaMethod(this PlayMakerFSM fsm, string stateName, int index, Action<Action> method) => fsm.GetState(stateName)!.InsertLambdaMethod(index, method);
+    public static void InsertLambdaMethod(this PlayMakerFSM fsm, string stateName, int index, Action<Action> method) => fsm.MustGetState(stateName).InsertLambdaMethod(index, method);
 
     /// <inheritdoc cref="InsertLambdaMethod(PlayMakerFSM, string, Action{Action}, int)"/>
     [PublicAPI]
-    public static void InsertLambdaMethod(this Fsm fsm, string stateName, Action<Action> method, int index) => fsm.GetState(stateName)!.InsertLambdaMethod(index, method);
+    public static void InsertLambdaMethod(this Fsm fsm, string stateName, Action<Action> method, int index) => fsm.MustGetState(stateName).InsertLambdaMethod(index, method);
 
     /// <inheritdoc cref="InsertLambdaMethod(PlayMakerFSM, string, Action{Action}, int)"/>
     [PublicAPI]
-    public static void InsertLambdaMethod(this Fsm fsm, string stateName, int index, Action<Action> method) => fsm.GetState(stateName)!.InsertLambdaMethod(index, method);
+    public static void InsertLambdaMethod(this Fsm fsm, string stateName, int index, Action<Action> method) => fsm.MustGetState(stateName).InsertLambdaMethod(index, method);
 
     /// <inheritdoc cref="InsertLambdaMethod(PlayMakerFSM, string, Action{Action}, int)"/>
     /// <param name="state">The fsm state</param>
@@ -954,19 +936,19 @@ public static class FsmUtil
     /// <param name="action">The action</param>
     /// <param name="index">The index of the action</param>
     [PublicAPI]
-    public static void ReplaceAction(this PlayMakerFSM fsm, string stateName, FsmStateAction action, int index) => fsm.GetState(stateName)!.ReplaceAction(index, action);
+    public static void ReplaceAction(this PlayMakerFSM fsm, string stateName, FsmStateAction action, int index) => fsm.MustGetState(stateName).ReplaceAction(index, action);
 
     /// <inheritdoc cref="ReplaceAction(PlayMakerFSM, string, FsmStateAction, int)"/>
     [PublicAPI]
-    public static void ReplaceAction(this PlayMakerFSM fsm, string stateName, int index, FsmStateAction action) => fsm.GetState(stateName)!.ReplaceAction(index, action);
+    public static void ReplaceAction(this PlayMakerFSM fsm, string stateName, int index, FsmStateAction action) => fsm.MustGetState(stateName).ReplaceAction(index, action);
 
     /// <inheritdoc cref="ReplaceAction(PlayMakerFSM, string, FsmStateAction, int)"/>
     [PublicAPI]
-    public static void ReplaceAction(this Fsm fsm, string stateName, FsmStateAction action, int index) => fsm.GetState(stateName)!.ReplaceAction(index, action);
+    public static void ReplaceAction(this Fsm fsm, string stateName, FsmStateAction action, int index) => fsm.MustGetState(stateName).ReplaceAction(index, action);
 
     /// <inheritdoc cref="ReplaceAction(PlayMakerFSM, string, FsmStateAction, int)"/>
     [PublicAPI]
-    public static void ReplaceAction(this Fsm fsm, string stateName, int index, FsmStateAction action) => fsm.GetState(stateName)!.ReplaceAction(index, action);
+    public static void ReplaceAction(this Fsm fsm, string stateName, int index, FsmStateAction action) => fsm.MustGetState(stateName).ReplaceAction(index, action);
 
     /// <inheritdoc cref="ReplaceAction(PlayMakerFSM, string, FsmStateAction, int)"/>
     /// <param name="state">The state in which the action is replaced</param>
@@ -990,11 +972,11 @@ public static class FsmUtil
     /// <param name="stateName">The name of the state in which the actions are to be replaced</param>
     /// <param name="actions">The new actions of the state</param>
     [PublicAPI]
-    public static void ReplaceAllActions(this PlayMakerFSM fsm, string stateName, params FsmStateAction[] actions) => fsm.GetState(stateName)!.ReplaceAllActions(actions);
+    public static void ReplaceAllActions(this PlayMakerFSM fsm, string stateName, params FsmStateAction[] actions) => fsm.MustGetState(stateName).ReplaceAllActions(actions);
 
     /// <inheritdoc cref="ReplaceAllActions(PlayMakerFSM, string, FsmStateAction[])"/>
     [PublicAPI]
-    public static void ReplaceAllActions(this Fsm fsm, string stateName, params FsmStateAction[] actions) => fsm.GetState(stateName)!.ReplaceAllActions(actions);
+    public static void ReplaceAllActions(this Fsm fsm, string stateName, params FsmStateAction[] actions) => fsm.MustGetState(stateName).ReplaceAllActions(actions);
 
     /// <inheritdoc cref="ReplaceAllActions(PlayMakerFSM, string, FsmStateAction[])"/>
     /// <param name="state">The fsm state</param>
@@ -1097,11 +1079,11 @@ public static class FsmUtil
     /// <param name="toState">The new endpoint of the transition</param>
     /// <returns>bool that indicates whether the change was successful</returns>
     [PublicAPI]
-    public static bool ChangeTransition(this PlayMakerFSM fsm, string stateName, string eventName, string toState) => fsm.GetState(stateName)!.ChangeTransition(eventName, toState);
+    public static bool ChangeTransition(this PlayMakerFSM fsm, string stateName, string eventName, string toState) => fsm.MustGetState(stateName).ChangeTransition(eventName, toState);
 
     /// <inheritdoc cref="ChangeTransition(PlayMakerFSM, string, string, string)"/>
     [PublicAPI]
-    public static bool ChangeTransition(this Fsm fsm, string stateName, string eventName, string toState) => fsm.GetState(stateName)!.ChangeTransition(eventName, toState);
+    public static bool ChangeTransition(this Fsm fsm, string stateName, string eventName, string toState) => fsm.MustGetState(stateName).ChangeTransition(eventName, toState);
 
     /// <inheritdoc cref="ChangeTransition(PlayMakerFSM, string, string, string)"/>
     /// <param name="state">The fsm state</param>
@@ -1197,11 +1179,11 @@ public static class FsmUtil
     /// <param name="stateName">The name of the state from which the transition starts</param>
     /// <param name="eventName">The event of the transition</param>
     [PublicAPI]
-    public static void RemoveTransition(this PlayMakerFSM fsm, string stateName, string eventName) => fsm.GetState(stateName)!.RemoveTransition(eventName);
+    public static void RemoveTransition(this PlayMakerFSM fsm, string stateName, string eventName) => fsm.MustGetState(stateName).RemoveTransition(eventName);
 
     /// <inheritdoc cref="RemoveTransition(PlayMakerFSM, string, string)"/>
     [PublicAPI]
-    public static void RemoveTransition(this Fsm fsm, string stateName, string eventName) => fsm.GetState(stateName)!.RemoveTransition(eventName);
+    public static void RemoveTransition(this Fsm fsm, string stateName, string eventName) => fsm.MustGetState(stateName).RemoveTransition(eventName);
 
     /// <inheritdoc cref="RemoveTransition(PlayMakerFSM, string, string)"/>
     /// <param name="state">The fsm state</param>
@@ -1251,11 +1233,11 @@ public static class FsmUtil
     /// <param name="stateName">The name of the state from which the transition starts</param>
     /// <param name="toState">The target of the transition</param>
     [PublicAPI]
-    public static void RemoveTransitionsTo(this PlayMakerFSM fsm, string stateName, string toState) => fsm.GetState(stateName)!.RemoveTransitionsTo(toState);
+    public static void RemoveTransitionsTo(this PlayMakerFSM fsm, string stateName, string toState) => fsm.MustGetState(stateName).RemoveTransitionsTo(toState);
 
     /// <inheritdoc cref="RemoveTransitionsTo(PlayMakerFSM, string, string)"/>
     [PublicAPI]
-    public static void RemoveTransitionsTo(this Fsm fsm, string stateName, string toState) => fsm.GetState(stateName)!.RemoveTransitionsTo(toState);
+    public static void RemoveTransitionsTo(this Fsm fsm, string stateName, string toState) => fsm.MustGetState(stateName).RemoveTransitionsTo(toState);
 
     /// <inheritdoc cref="RemoveTransitionsTo(PlayMakerFSM, string, string)"/>
     /// <param name="state">The fsm state</param>
@@ -1269,11 +1251,11 @@ public static class FsmUtil
     /// <param name="fsm">The fsm</param>
     /// <param name="stateName">The name of the state from which the transition starts</param>
     [PublicAPI]
-    public static void RemoveTransitions(this PlayMakerFSM fsm, string stateName) => fsm.GetState(stateName)!.RemoveTransitions();
+    public static void RemoveTransitions(this PlayMakerFSM fsm, string stateName) => fsm.MustGetState(stateName).RemoveTransitions();
 
     /// <inheritdoc cref="RemoveTransitions(PlayMakerFSM, string)"/>
     [PublicAPI]
-    public static void RemoveTransitions(this Fsm fsm, string stateName) => fsm.GetState(stateName)!.RemoveTransitions();
+    public static void RemoveTransitions(this Fsm fsm, string stateName) => fsm.MustGetState(stateName).RemoveTransitions();
 
     /// <inheritdoc cref="RemoveTransitions(PlayMakerFSM, string)"/>
     /// <param name="state">The fsm state</param>
@@ -1288,11 +1270,11 @@ public static class FsmUtil
     /// <param name="stateName">The name of the state with the action</param>
     /// <param name="index">The index of the action</param>
     [PublicAPI]
-    public static bool RemoveAction(this PlayMakerFSM fsm, string stateName, int index) => fsm.GetState(stateName)!.RemoveAction(index);
+    public static bool RemoveAction(this PlayMakerFSM fsm, string stateName, int index) => fsm.MustGetState(stateName).RemoveAction(index);
 
     /// <inheritdoc cref="RemoveAction(PlayMakerFSM, string, int)"/>
     [PublicAPI]
-    public static bool RemoveAction(this Fsm fsm, string stateName, int index) => fsm.GetState(stateName)!.RemoveAction(index);
+    public static bool RemoveAction(this Fsm fsm, string stateName, int index) => fsm.MustGetState(stateName).RemoveAction(index);
 
     /// <inheritdoc cref="RemoveAction(PlayMakerFSM, string, int)"/>
     /// <param name="state">The fsm state</param>
@@ -1346,11 +1328,11 @@ public static class FsmUtil
     /// <param name="fsm">The fsm</param>
     /// <param name="stateName">The name of the state to remove the actions from</param>
     [PublicAPI]
-    public static void RemoveActionsOfType<TAction>(this PlayMakerFSM fsm, string stateName) => fsm.GetState(stateName)!.RemoveActionsOfType<TAction>();
+    public static void RemoveActionsOfType<TAction>(this PlayMakerFSM fsm, string stateName) => fsm.MustGetState(stateName).RemoveActionsOfType<TAction>();
 
     /// <inheritdoc cref="RemoveActionsOfType{TAction}(PlayMakerFSM, string)"/>
     [PublicAPI]
-    public static void RemoveActionsOfType<TAction>(this Fsm fsm, string stateName) => fsm.GetState(stateName)!.RemoveActionsOfType<TAction>();
+    public static void RemoveActionsOfType<TAction>(this Fsm fsm, string stateName) => fsm.MustGetState(stateName).RemoveActionsOfType<TAction>();
 
     /// <inheritdoc cref="RemoveActionsOfType{TAction}(PlayMakerFSM, string)"/>
     /// <param name="state">The fsm state</param>
@@ -1364,26 +1346,18 @@ public static class FsmUtil
     /// <param name="fsm">The fsm</param>
     /// <param name="stateName">The name of the state to remove the actions from</param>
     [PublicAPI]
-    public static void RemoveFirstActionOfType<TAction>(this PlayMakerFSM fsm, string stateName) => fsm.GetState(stateName)!.RemoveFirstActionOfType<TAction>();
+    public static void RemoveFirstActionOfType<TAction>(this PlayMakerFSM fsm, string stateName) => fsm.MustGetState(stateName).RemoveFirstActionOfType<TAction>();
 
     /// <inheritdoc cref="RemoveFirstActionOfType{TAction}(PlayMakerFSM, string)"/>
     [PublicAPI]
-    public static void RemoveFirstActionOfType<TAction>(this Fsm fsm, string stateName) => fsm.GetState(stateName)!.RemoveFirstActionOfType<TAction>();
+    public static void RemoveFirstActionOfType<TAction>(this Fsm fsm, string stateName) => fsm.MustGetState(stateName).RemoveFirstActionOfType<TAction>();
 
     /// <inheritdoc cref="RemoveFirstActionOfType{TAction}(PlayMakerFSM, string)"/>
     /// <param name="state">The fsm state</param>
     [PublicAPI]
     public static void RemoveFirstActionOfType<TAction>(this FsmState state)
     {
-        int firstActionIndex = -1;
-        for (int i = 0; i < state.Actions.Length; i++)
-        {
-            if (state.Actions[i] is TAction)
-            {
-                firstActionIndex = i;
-                break;
-            }
-        }
+        int firstActionIndex = state.IndexFirstActionOfType<TAction>();
 
         if (firstActionIndex == -1)
             return;
@@ -1412,26 +1386,18 @@ public static class FsmUtil
     /// <param name="fsm">The fsm</param>
     /// <param name="stateName">The name of the state to remove the actions from</param>
     [PublicAPI]
-    public static void RemoveLastActionOfType<TAction>(this PlayMakerFSM fsm, string stateName) => fsm.GetState(stateName)!.RemoveLastActionOfType<TAction>();
+    public static void RemoveLastActionOfType<TAction>(this PlayMakerFSM fsm, string stateName) => fsm.MustGetState(stateName).RemoveLastActionOfType<TAction>();
 
     /// <inheritdoc cref="RemoveLastActionOfType{TAction}(PlayMakerFSM, string)"/>
     [PublicAPI]
-    public static void RemoveLastActionOfType<TAction>(this Fsm fsm, string stateName) => fsm.GetState(stateName)!.RemoveLastActionOfType<TAction>();
+    public static void RemoveLastActionOfType<TAction>(this Fsm fsm, string stateName) => fsm.MustGetState(stateName).RemoveLastActionOfType<TAction>();
 
     /// <inheritdoc cref="RemoveLastActionOfType{TAction}(PlayMakerFSM, string)"/>
     /// <param name="state">The fsm state</param>
     [PublicAPI]
     public static void RemoveLastActionOfType<TAction>(this FsmState state)
     {
-        int lastActionIndex = -1;
-        for (int i = state.Actions.Length - 1; i >= 0; i--)
-        {
-            if (state.Actions[i] is TAction)
-            {
-                lastActionIndex = i;
-                break;
-            }
-        }
+        int lastActionIndex = state.IndexLastActionOfType<TAction>();
 
         if (lastActionIndex == -1)
             return;
@@ -1466,11 +1432,11 @@ public static class FsmUtil
     /// <param name="index">The index of the action</param>
     /// <returns>bool that indicates whether the disabling was successful</returns>
     [PublicAPI]
-    public static bool DisableAction(this PlayMakerFSM fsm, string stateName, int index) => fsm.GetState(stateName)!.DisableAction(index);
+    public static bool DisableAction(this PlayMakerFSM fsm, string stateName, int index) => fsm.MustGetState(stateName).DisableAction(index);
 
     /// <inheritdoc cref="DisableAction(PlayMakerFSM, string, int)"/>
     [PublicAPI]
-    public static bool DisableAction(this Fsm fsm, string stateName, int index) => fsm.GetState(stateName)!.DisableAction(index);
+    public static bool DisableAction(this Fsm fsm, string stateName, int index) => fsm.MustGetState(stateName).DisableAction(index);
 
     /// <inheritdoc cref="DisableAction(PlayMakerFSM, string, int)"/>
     /// <param name="state">The fsm state</param>
@@ -1495,11 +1461,11 @@ public static class FsmUtil
     /// <param name="indices">The indices of the action</param>
     /// <returns>bool that indicates whether all the disablings were successful</returns>
     [PublicAPI]
-    public static bool DisableActions(this PlayMakerFSM fsm, string stateName, params int[] indices) => fsm.GetState(stateName)!.DisableActions(indices);
+    public static bool DisableActions(this PlayMakerFSM fsm, string stateName, params int[] indices) => fsm.MustGetState(stateName).DisableActions(indices);
 
     /// <inheritdoc cref="DisableActions(PlayMakerFSM, string, int[])"/>
     [PublicAPI]
-    public static bool DisableActions(this Fsm fsm, string stateName, params int[] indices) => fsm.GetState(stateName)!.DisableActions(indices);
+    public static bool DisableActions(this Fsm fsm, string stateName, params int[] indices) => fsm.MustGetState(stateName).DisableActions(indices);
 
     /// <inheritdoc cref="DisableActions(PlayMakerFSM, string, int[])"/>
     /// <param name="state">The fsm state</param>
@@ -1540,11 +1506,11 @@ public static class FsmUtil
     /// <param name="fsm">The fsm</param>
     /// <param name="stateName">The name of the state to disable the actions from</param>
     [PublicAPI]
-    public static void DisableActionsOfType<TAction>(this PlayMakerFSM fsm, string stateName) => fsm.GetState(stateName)!.DisableActionsOfType<TAction>();
+    public static void DisableActionsOfType<TAction>(this PlayMakerFSM fsm, string stateName) => fsm.MustGetState(stateName).DisableActionsOfType<TAction>();
 
     /// <inheritdoc cref="DisableActionsOfType{TAction}(PlayMakerFSM, string)"/>
     [PublicAPI]
-    public static void DisableActionsOfType<TAction>(this Fsm fsm, string stateName) => fsm.GetState(stateName)!.DisableActionsOfType<TAction>();
+    public static void DisableActionsOfType<TAction>(this Fsm fsm, string stateName) => fsm.MustGetState(stateName).DisableActionsOfType<TAction>();
 
     /// <inheritdoc cref="DisableActionsOfType{TAction}(PlayMakerFSM, string)"/>
     /// <param name="state">The fsm state</param>
