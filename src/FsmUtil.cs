@@ -1623,19 +1623,6 @@ public static class FsmUtil
 
     /// <inheritdoc cref="AddFloatVariable(PlayMakerFSM, string)"/>
     [PublicAPI]
-    public static FsmColor AddColorVariable(this PlayMakerFSM fsm, string name) => fsm.Fsm.AddColorVariable(name);
-
-    /// <inheritdoc cref="AddFloatVariable(PlayMakerFSM, string)"/>
-    [PublicAPI]
-    public static FsmColor AddColorVariable(this Fsm fsm, string name)
-    {
-        var tmp = MakeNewVariableArray(fsm.Variables.ColorVariables, name);
-        fsm.Variables.ColorVariables = tmp;
-        return tmp[^1];
-    }
-
-    /// <inheritdoc cref="AddFloatVariable(PlayMakerFSM, string)"/>
-    [PublicAPI]
     public static FsmRect AddRectVariable(this PlayMakerFSM fsm, string name) => fsm.Fsm.AddRectVariable(name);
 
     /// <inheritdoc cref="AddFloatVariable(PlayMakerFSM, string)"/>
@@ -1662,6 +1649,19 @@ public static class FsmUtil
 
     /// <inheritdoc cref="AddFloatVariable(PlayMakerFSM, string)"/>
     [PublicAPI]
+    public static FsmColor AddColorVariable(this PlayMakerFSM fsm, string name) => fsm.Fsm.AddColorVariable(name);
+
+    /// <inheritdoc cref="AddFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmColor AddColorVariable(this Fsm fsm, string name)
+    {
+        var tmp = MakeNewVariableArray(fsm.Variables.ColorVariables, name);
+        fsm.Variables.ColorVariables = tmp;
+        return tmp[^1];
+    }
+
+    /// <inheritdoc cref="AddFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
     public static FsmGameObject AddGameObjectVariable(this PlayMakerFSM fsm, string name) => fsm.Fsm.AddGameObjectVariable(name);
 
     /// <inheritdoc cref="AddFloatVariable(PlayMakerFSM, string)"/>
@@ -1670,6 +1670,71 @@ public static class FsmUtil
     {
         var tmp = MakeNewVariableArray(fsm.Variables.GameObjectVariables, name);
         fsm.Variables.GameObjectVariables = tmp;
+        return tmp[^1];
+    }
+
+    /// <inheritdoc cref="AddFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmArray AddArrayVariable(this PlayMakerFSM fsm, string name) => fsm.Fsm.AddArrayVariable(name);
+
+    /// <inheritdoc cref="AddFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmArray AddArrayVariable(this Fsm fsm, string name)
+    {
+        var tmp = MakeNewVariableArray(fsm.Variables.ArrayVariables, name);
+        fsm.Variables.ArrayVariables = tmp;
+        return tmp[^1];
+    }
+
+    /// <inheritdoc cref="AddFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmEnum AddEnumVariable(this PlayMakerFSM fsm, string name) => fsm.Fsm.AddEnumVariable(name);
+
+    /// <inheritdoc cref="AddFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmEnum AddEnumVariable(this Fsm fsm, string name)
+    {
+        var tmp = MakeNewVariableArray(fsm.Variables.EnumVariables, name);
+        fsm.Variables.EnumVariables = tmp;
+        return tmp[^1];
+    }
+
+    /// <inheritdoc cref="AddFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmObject AddObjectVariable(this PlayMakerFSM fsm, string name) => fsm.Fsm.AddObjectVariable(name);
+
+    /// <inheritdoc cref="AddFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmObject AddObjectVariable(this Fsm fsm, string name)
+    {
+        var tmp = MakeNewVariableArray(fsm.Variables.ObjectVariables, name);
+        fsm.Variables.ObjectVariables = tmp;
+        return tmp[^1];
+    }
+
+    /// <inheritdoc cref="AddFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmMaterial AddMaterialVariable(this PlayMakerFSM fsm, string name) => fsm.Fsm.AddMaterialVariable(name);
+
+    /// <inheritdoc cref="AddFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmMaterial AddMaterialVariable(this Fsm fsm, string name)
+    {
+        var tmp = MakeNewVariableArray(fsm.Variables.MaterialVariables, name);
+        fsm.Variables.MaterialVariables = tmp;
+        return tmp[^1];
+    }
+
+    /// <inheritdoc cref="AddFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmTexture AddTextureVariable(this PlayMakerFSM fsm, string name) => fsm.Fsm.AddTextureVariable(name);
+
+    /// <inheritdoc cref="AddFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmTexture AddTextureVariable(this Fsm fsm, string name)
+    {
+        var tmp = MakeNewVariableArray(fsm.Variables.TextureVariables, name);
+        fsm.Variables.TextureVariables = tmp;
         return tmp[^1];
     }
 
@@ -1740,14 +1805,6 @@ public static class FsmUtil
 
     /// <inheritdoc cref="FindFloatVariable(PlayMakerFSM, string)"/>
     [PublicAPI]
-    public static FsmColor? FindColorVariable(this PlayMakerFSM fsm, string name) => fsm.Fsm.FindColorVariable(name);
-
-    /// <inheritdoc cref="FindFloatVariable(PlayMakerFSM, string)"/>
-    [PublicAPI]
-    public static FsmColor? FindColorVariable(this Fsm fsm, string name) => FindInVariableArray(fsm.Variables.ColorVariables, name);
-
-    /// <inheritdoc cref="FindFloatVariable(PlayMakerFSM, string)"/>
-    [PublicAPI]
     public static FsmRect? FindRectVariable(this PlayMakerFSM fsm, string name) => fsm.Fsm.FindRectVariable(name);
 
     /// <inheritdoc cref="FindFloatVariable(PlayMakerFSM, string)"/>
@@ -1764,11 +1821,59 @@ public static class FsmUtil
 
     /// <inheritdoc cref="FindFloatVariable(PlayMakerFSM, string)"/>
     [PublicAPI]
+    public static FsmColor? FindColorVariable(this PlayMakerFSM fsm, string name) => fsm.Fsm.FindColorVariable(name);
+
+    /// <inheritdoc cref="FindFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmColor? FindColorVariable(this Fsm fsm, string name) => FindInVariableArray(fsm.Variables.ColorVariables, name);
+
+    /// <inheritdoc cref="FindFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
     public static FsmGameObject? FindGameObjectVariable(this PlayMakerFSM fsm, string name) => fsm.Fsm.FindGameObjectVariable(name);
 
     /// <inheritdoc cref="FindFloatVariable(PlayMakerFSM, string)"/>
     [PublicAPI]
     public static FsmGameObject? FindGameObjectVariable(this Fsm fsm, string name) => FindInVariableArray(fsm.Variables.GameObjectVariables, name);
+
+    /// <inheritdoc cref="FindFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmArray? FindArrayVariable(this PlayMakerFSM fsm, string name) => fsm.Fsm.FindArrayVariable(name);
+
+    /// <inheritdoc cref="FindFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmArray? FindArrayVariable(this Fsm fsm, string name) => FindInVariableArray(fsm.Variables.ArrayVariables, name);
+
+    /// <inheritdoc cref="FindFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmEnum? FindEnumVariable(this PlayMakerFSM fsm, string name) => fsm.Fsm.FindEnumVariable(name);
+
+    /// <inheritdoc cref="FindFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmEnum? FindEnumVariable(this Fsm fsm, string name) => FindInVariableArray(fsm.Variables.EnumVariables, name);
+
+    /// <inheritdoc cref="FindFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmObject? FindObjectVariable(this PlayMakerFSM fsm, string name) => fsm.Fsm.FindObjectVariable(name);
+
+    /// <inheritdoc cref="FindFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmObject? FindObjectVariable(this Fsm fsm, string name) => FindInVariableArray(fsm.Variables.ObjectVariables, name);
+
+    /// <inheritdoc cref="FindFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmMaterial? FindMaterialVariable(this PlayMakerFSM fsm, string name) => fsm.Fsm.FindMaterialVariable(name);
+
+    /// <inheritdoc cref="FindFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmMaterial? FindMaterialVariable(this Fsm fsm, string name) => FindInVariableArray(fsm.Variables.MaterialVariables, name);
+
+    /// <inheritdoc cref="FindFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmTexture? FindTextureVariable(this PlayMakerFSM fsm, string name) => fsm.Fsm.FindTextureVariable(name);
+
+    /// <inheritdoc cref="FindFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmTexture? FindTextureVariable(this Fsm fsm, string name) => FindInVariableArray(fsm.Variables.TextureVariables, name);
 
     /// <summary>
     ///     Gets a fsm variable in a PlayMakerFSM. Creates a new one if none with the name are present.
@@ -1861,20 +1966,6 @@ public static class FsmUtil
 
     /// <inheritdoc cref="GetFloatVariable(PlayMakerFSM, string)"/>
     [PublicAPI]
-    public static FsmColor GetColorVariable(this PlayMakerFSM fsm, string name) => fsm.Fsm.GetColorVariable(name);
-
-    /// <inheritdoc cref="GetFloatVariable(PlayMakerFSM, string)"/>
-    [PublicAPI]
-    public static FsmColor GetColorVariable(this Fsm fsm, string name)
-    {
-        var tmp = fsm.FindColorVariable(name);
-        if (tmp != null)
-            return tmp;
-        return fsm.AddColorVariable(name);
-    }
-
-    /// <inheritdoc cref="GetFloatVariable(PlayMakerFSM, string)"/>
-    [PublicAPI]
     public static FsmRect GetRectVariable(this PlayMakerFSM fsm, string name) => fsm.Fsm.GetRectVariable(name);
 
     /// <inheritdoc cref="GetFloatVariable(PlayMakerFSM, string)"/>
@@ -1903,6 +1994,20 @@ public static class FsmUtil
 
     /// <inheritdoc cref="GetFloatVariable(PlayMakerFSM, string)"/>
     [PublicAPI]
+    public static FsmColor GetColorVariable(this PlayMakerFSM fsm, string name) => fsm.Fsm.GetColorVariable(name);
+
+    /// <inheritdoc cref="GetFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmColor GetColorVariable(this Fsm fsm, string name)
+    {
+        var tmp = fsm.FindColorVariable(name);
+        if (tmp != null)
+            return tmp;
+        return fsm.AddColorVariable(name);
+    }
+
+    /// <inheritdoc cref="GetFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
     public static FsmGameObject GetGameObjectVariable(this PlayMakerFSM fsm, string name) => fsm.Fsm.GetGameObjectVariable(name);
 
     /// <inheritdoc cref="GetFloatVariable(PlayMakerFSM, string)"/>
@@ -1913,6 +2018,76 @@ public static class FsmUtil
         if (tmp != null)
             return tmp;
         return fsm.AddGameObjectVariable(name);
+    }
+
+    /// <inheritdoc cref="GetFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmArray GetArrayVariable(this PlayMakerFSM fsm, string name) => fsm.Fsm.GetArrayVariable(name);
+
+    /// <inheritdoc cref="GetFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmArray GetArrayVariable(this Fsm fsm, string name)
+    {
+        var tmp = fsm.FindArrayVariable(name);
+        if (tmp != null)
+            return tmp;
+        return fsm.AddArrayVariable(name);
+    }
+
+    /// <inheritdoc cref="GetFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmEnum GetEnumVariable(this PlayMakerFSM fsm, string name) => fsm.Fsm.GetEnumVariable(name);
+
+    /// <inheritdoc cref="GetFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmEnum GetEnumVariable(this Fsm fsm, string name)
+    {
+        var tmp = fsm.FindEnumVariable(name);
+        if (tmp != null)
+            return tmp;
+        return fsm.AddEnumVariable(name);
+    }
+
+    /// <inheritdoc cref="GetFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmObject GetObjectVariable(this PlayMakerFSM fsm, string name) => fsm.Fsm.GetObjectVariable(name);
+
+    /// <inheritdoc cref="GetFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmObject GetObjectVariable(this Fsm fsm, string name)
+    {
+        var tmp = fsm.FindObjectVariable(name);
+        if (tmp != null)
+            return tmp;
+        return fsm.AddObjectVariable(name);
+    }
+
+    /// <inheritdoc cref="GetFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmMaterial GetMaterialVariable(this PlayMakerFSM fsm, string name) => fsm.Fsm.GetMaterialVariable(name);
+
+    /// <inheritdoc cref="GetFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmMaterial GetMaterialVariable(this Fsm fsm, string name)
+    {
+        var tmp = fsm.FindMaterialVariable(name);
+        if (tmp != null)
+            return tmp;
+        return fsm.AddMaterialVariable(name);
+    }
+
+    /// <inheritdoc cref="GetFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmTexture GetTextureVariable(this PlayMakerFSM fsm, string name) => fsm.Fsm.GetTextureVariable(name);
+
+    /// <inheritdoc cref="GetFloatVariable(PlayMakerFSM, string)"/>
+    [PublicAPI]
+    public static FsmTexture GetTextureVariable(this Fsm fsm, string name)
+    {
+        var tmp = fsm.FindTextureVariable(name);
+        if (tmp != null)
+            return tmp;
+        return fsm.AddTextureVariable(name);
     }
 
     #endregion FSM Variables
@@ -1938,7 +2113,7 @@ public static class FsmUtil
                 fsm.InsertAction(s.Name, new LogAction { Text = $"{i} - {s.Actions[i].GetType().FullName}" }, i);
                 if (additionalLogging)
                 {
-                    fsm.InsertMethod(s.Name, (_) =>
+                    fsm.InsertMethod(s.Name, () =>
                     {
                         var fsmVars = fsm.Variables;
                         foreach (var variable in fsmVars.FloatVariables)
@@ -1953,14 +2128,24 @@ public static class FsmUtil
                             InternalLogger.Log($"[{fsm.Name}]:[Vector2Variables] - '{variable.Name}': '({variable.Value.x}, {variable.Value.y})'");
                         foreach (var variable in fsmVars.Vector3Variables)
                             InternalLogger.Log($"[{fsm.Name}]:[Vector3Variables] - '{variable.Name}': '({variable.Value.x}, {variable.Value.y}, {variable.Value.z})'");
-                        foreach (var variable in fsmVars.ColorVariables)
-                            InternalLogger.Log($"[{fsm.Name}]:[ColorVariables] - '{variable.Name}': '{variable.Value}'");
                         foreach (var variable in fsmVars.RectVariables)
                             InternalLogger.Log($"[{fsm.Name}]:[RectVariables] - '{variable.Name}': '{variable.Value}'");
                         foreach (var variable in fsmVars.QuaternionVariables)
                             InternalLogger.Log($"[{fsm.Name}]:[QuaternionVariables] - '{variable.Name}': '{variable.Value}'");
+                        foreach (var variable in fsmVars.ColorVariables)
+                            InternalLogger.Log($"[{fsm.Name}]:[ColorVariables] - '{variable.Name}': '{variable.Value}'");
                         foreach (var variable in fsmVars.GameObjectVariables)
                             InternalLogger.Log($"[{fsm.Name}]:[GameObjectVariables] - '{variable.Name}': '{variable.Value}'");
+                        foreach (var variable in fsmVars.ArrayVariables)
+                            InternalLogger.Log($"[{fsm.Name}]:[ArrayVariables] - '{variable.Name}': '{variable}'");
+                        foreach (var variable in fsmVars.EnumVariables)
+                            InternalLogger.Log($"[{fsm.Name}]:[EnumVariables] - '{variable.Name}': '{variable.Value}'");
+                        foreach (var variable in fsmVars.ObjectVariables)
+                            InternalLogger.Log($"[{fsm.Name}]:[ObjectVariables] - '{variable.Name}': '{variable.Value}'");
+                        foreach (var variable in fsmVars.MaterialVariables)
+                            InternalLogger.Log($"[{fsm.Name}]:[MaterialVariables] - '{variable.Name}': '{variable.Value}'");
+                        foreach (var variable in fsmVars.TextureVariables)
+                            InternalLogger.Log($"[{fsm.Name}]:[TextureVariables] - '{variable.Name}': '{variable.Value}'");
                     }, i + 1);
                 }
             }
@@ -1972,32 +2157,102 @@ public static class FsmUtil
     /// </summary>
     /// <param name="fsm">The fsm</param>
     [PublicAPI]
-    public static void Log(this PlayMakerFSM fsm) => fsm.Fsm.Log();
+    public static void Log(this PlayMakerFSM fsm) => fsm.Fsm.Log(fsm.gameObject.name);
 
     /// <inheritdoc cref="Log(PlayMakerFSM)"/>
     [PublicAPI]
-    public static void Log(this Fsm fsm)
+    public static void Log(this Fsm fsm, string gameObjectName = "")
     {
-        Log($"FSM \"{fsm.Name}\"");
-        Log($"{fsm.States.Length} States");
+        Log($"FSM \"{fsm.Name}\" on \"{gameObjectName}\"");
+        Log($"\t{fsm.States.Length} States");
         foreach (var s in fsm.States)
         {
-            Log($"\tState \"{s.Name}\"");
+            Log($"\t\tState \"{s.Name}\"");
             foreach (var t in s.Transitions)
             {
-                Log($"\t\t-> \"{t.ToState}\" via \"{t.EventName}\"");
+                Log($"\t\t\t-> \"{t.ToState}\" via \"{t.EventName}\"");
             }
         }
-        Log($"{fsm.GlobalTransitions.Length} Global Transitions");
+        Log($"\t{fsm.GlobalTransitions.Length} Global Transitions");
         foreach (var t in fsm.GlobalTransitions)
         {
-            Log($"\tGlobal Transition \"{t.EventName}\" to \"{t.ToState}\"");
+            Log($"\t\tGlobal Transition \"{t.EventName}\" to \"{t.ToState}\"");
+        }
+        Log($"\tVariables");
+        var fsmVar = fsm.Variables;
+        foreach (var t in fsmVar.FloatVariables)
+        {
+            Log($"\t\tFloat \"{t.Name}\": {t.Value}");
+        }
+        foreach (var t in fsmVar.IntVariables)
+        {
+            Log($"\t\tInt \"{t.Name}\": {t.Value}");
+        }
+        foreach (var t in fsmVar.BoolVariables)
+        {
+            Log($"\t\tBool \"{t.Name}\": {t.Value}");
+        }
+        foreach (var t in fsmVar.StringVariables)
+        {
+            Log($"\t\tString \"{t.Name}\": {t.Value}");
+        }
+        foreach (var t in fsmVar.Vector2Variables)
+        {
+            Log($"\t\tVector2 \"{t.Name}\": {t.Value}");
+        }
+        foreach (var t in fsmVar.Vector3Variables)
+        {
+            Log($"\t\tVector3 \"{t.Name}\": {t.Value}");
+        }
+        foreach (var t in fsmVar.RectVariables)
+        {
+            Log($"\t\tRect \"{t.Name}\": {t.Value}");
+        }
+        foreach (var t in fsmVar.QuaternionVariables)
+        {
+            Log($"\t\tQuaternion \"{t.Name}\": {t.Value}");
+        }
+        foreach (var t in fsmVar.ColorVariables)
+        {
+            Log($"\t\tColor \"{t.Name}\": {t.Value}");
+        }
+        foreach (var t in fsmVar.GameObjectVariables)
+        {
+            Log($"\t\tGameObject \"{t.Name}\": {t.Value}");
+        }
+        foreach (var t in fsmVar.ArrayVariables)
+        {
+            Log($"\t\tArray \"{t.Name}\": \"{String.Join(", ", t.objectReferences as object[])}\"");
+        }
+        foreach (var t in fsmVar.EnumVariables)
+        {
+            Log($"\t\tEnum \"{t.Name}\": {t.Value}");
+        }
+        foreach (var t in fsmVar.ObjectVariables)
+        {
+            Log($"\t\tObject \"{t.Name}\": {t.Value}");
+        }
+        foreach (var t in fsmVar.MaterialVariables)
+        {
+            Log($"\t\tMaterial \"{t.Name}\": {t.Value}");
+        }
+        foreach (var t in fsmVar.TextureVariables)
+        {
+            Log($"\t\tTexture \"{t.Name}\": {t.Value}");
         }
     }
 
+    private static void Log(string goName, string fsmName, string part, string msg)
+    {
+        Log($"[{goName}]:[{fsmName}]:[{part}]", msg);
+    }
     private static void Log(string msg)
     {
-        InternalLogger.Log($"[Core]:[FsmUtil]:[FsmUtil] - {msg}");
+        Log("[Core]:[FsmUtil]:[FsmUtil]", msg);
+    }
+    private static void Log(string pre, string post)
+    {
+        InternalLogger.Log($"{pre} - {post}");
     }
 
     #endregion Log
