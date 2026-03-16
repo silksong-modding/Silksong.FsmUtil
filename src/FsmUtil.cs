@@ -292,10 +292,10 @@ public static class FsmUtil
     [PublicAPI]
     public static int IndexFirstActionMatching(this FsmState state, Func<FsmStateAction, bool> predicate)
     {
-        int n = state.actions.Length;
+        int n = state.Actions.Length;
         for (int i = 0; i < n; i++)
         {
-            if (predicate(state.actions[i]))
+            if (predicate(state.Actions[i]))
             {
                 return i;
             }
@@ -312,10 +312,10 @@ public static class FsmUtil
     [PublicAPI]
     public static int IndexLastActionMatching(this FsmState state, Func<FsmStateAction, bool> predicate)
     {
-        int n = state.actions.Length;
+        int n = state.Actions.Length;
         for (int i = n - 1; i >= 0; i--)
         {
-            if (predicate(state.actions[i]))
+            if (predicate(state.Actions[i]))
             {
                 return i;
             }
@@ -1001,7 +1001,7 @@ public static class FsmUtil
     public static void ReplaceActionsOfType<T>(this FsmState state, Func<T, FsmStateAction> newActionGenerator)
         where T : FsmStateAction
     {
-        for (int i = 0; i < state.actions.Length; i++)
+        for (int i = 0; i < state.Actions.Length; i++)
         {
             if (state.Actions[i] is T typedAction)
             {
@@ -1021,9 +1021,9 @@ public static class FsmUtil
     {
         int foundIndex = -2;
 
-        for (int i = 0; i < state.actions.Length; i++)
+        for (int i = 0; i < state.Actions.Length; i++)
         {
-            if (state.actions[i] is T)
+            if (state.Actions[i] is T)
             {
                 foundIndex = i;
                 break;
@@ -1049,9 +1049,9 @@ public static class FsmUtil
     {
         int foundIndex = -2;
 
-        for (int i = state.actions.Length - 1; i >= 0; i--)
+        for (int i = state.Actions.Length - 1; i >= 0; i--)
         {
-            if (state.actions[i] is T)
+            if (state.Actions[i] is T)
             {
                 foundIndex = i;
                 break;
