@@ -29,7 +29,7 @@
       }
     ],
     "output": "_site",
-    "template": ["default", "modern", "silksong-modding-style-docfx"],
+    "template": ["default", "modern", "silksong-modding"],
     "globalMetadata": {
       "_appName": "FsmUtil",
       "_appTitle": "FsmUtil",
