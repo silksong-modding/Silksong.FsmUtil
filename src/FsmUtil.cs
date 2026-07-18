@@ -1553,6 +1553,7 @@ public static class FsmUtil
     {
         var tmp = MakeNewVariableArray(fsm.Variables.FloatVariables, name);
         fsm.Variables.FloatVariables = tmp;
+        fsm.Variables.AddVariableLookup(tmp[^1]);
         return tmp[^1];
     }
 
@@ -1566,6 +1567,7 @@ public static class FsmUtil
     {
         var tmp = MakeNewVariableArray(fsm.Variables.IntVariables, name);
         fsm.Variables.IntVariables = tmp;
+        fsm.Variables.AddVariableLookup(tmp[^1]);
         return tmp[^1];
     }
 
@@ -1579,6 +1581,7 @@ public static class FsmUtil
     {
         var tmp = MakeNewVariableArray(fsm.Variables.BoolVariables, name);
         fsm.Variables.BoolVariables = tmp;
+        fsm.Variables.AddVariableLookup(tmp[^1]);
         return tmp[^1];
     }
 
@@ -1592,6 +1595,7 @@ public static class FsmUtil
     {
         var tmp = MakeNewVariableArray(fsm.Variables.StringVariables, name);
         fsm.Variables.StringVariables = tmp;
+        fsm.Variables.AddVariableLookup(tmp[^1]);
         return tmp[^1];
     }
 
@@ -1605,6 +1609,7 @@ public static class FsmUtil
     {
         var tmp = MakeNewVariableArray(fsm.Variables.Vector2Variables, name);
         fsm.Variables.Vector2Variables = tmp;
+        fsm.Variables.AddVariableLookup(tmp[^1]);
         return tmp[^1];
     }
 
@@ -1618,6 +1623,7 @@ public static class FsmUtil
     {
         var tmp = MakeNewVariableArray(fsm.Variables.Vector3Variables, name);
         fsm.Variables.Vector3Variables = tmp;
+        fsm.Variables.AddVariableLookup(tmp[^1]);
         return tmp[^1];
     }
 
@@ -1631,6 +1637,7 @@ public static class FsmUtil
     {
         var tmp = MakeNewVariableArray(fsm.Variables.RectVariables, name);
         fsm.Variables.RectVariables = tmp;
+        fsm.Variables.AddVariableLookup(tmp[^1]);
         return tmp[^1];
     }
 
@@ -1644,6 +1651,7 @@ public static class FsmUtil
     {
         var tmp = MakeNewVariableArray(fsm.Variables.QuaternionVariables, name);
         fsm.Variables.QuaternionVariables = tmp;
+        fsm.Variables.AddVariableLookup(tmp[^1]);
         return tmp[^1];
     }
 
@@ -1657,6 +1665,7 @@ public static class FsmUtil
     {
         var tmp = MakeNewVariableArray(fsm.Variables.ColorVariables, name);
         fsm.Variables.ColorVariables = tmp;
+        fsm.Variables.AddVariableLookup(tmp[^1]);
         return tmp[^1];
     }
 
@@ -1670,6 +1679,7 @@ public static class FsmUtil
     {
         var tmp = MakeNewVariableArray(fsm.Variables.GameObjectVariables, name);
         fsm.Variables.GameObjectVariables = tmp;
+        fsm.Variables.AddVariableLookup(tmp[^1]);
         return tmp[^1];
     }
 
@@ -1683,6 +1693,7 @@ public static class FsmUtil
     {
         var tmp = MakeNewVariableArray(fsm.Variables.ArrayVariables, name);
         fsm.Variables.ArrayVariables = tmp;
+        fsm.Variables.AddVariableLookup(tmp[^1]);
         return tmp[^1];
     }
 
@@ -1696,6 +1707,7 @@ public static class FsmUtil
     {
         var tmp = MakeNewVariableArray(fsm.Variables.EnumVariables, name);
         fsm.Variables.EnumVariables = tmp;
+        fsm.Variables.AddVariableLookup(tmp[^1]);
         return tmp[^1];
     }
 
@@ -1709,6 +1721,7 @@ public static class FsmUtil
     {
         var tmp = MakeNewVariableArray(fsm.Variables.ObjectVariables, name);
         fsm.Variables.ObjectVariables = tmp;
+        fsm.Variables.AddVariableLookup(tmp[^1]);
         return tmp[^1];
     }
 
@@ -1722,6 +1735,7 @@ public static class FsmUtil
     {
         var tmp = MakeNewVariableArray(fsm.Variables.MaterialVariables, name);
         fsm.Variables.MaterialVariables = tmp;
+        fsm.Variables.AddVariableLookup(tmp[^1]);
         return tmp[^1];
     }
 
@@ -1735,6 +1749,7 @@ public static class FsmUtil
     {
         var tmp = MakeNewVariableArray(fsm.Variables.TextureVariables, name);
         fsm.Variables.TextureVariables = tmp;
+        fsm.Variables.AddVariableLookup(tmp[^1]);
         return tmp[^1];
     }
 
