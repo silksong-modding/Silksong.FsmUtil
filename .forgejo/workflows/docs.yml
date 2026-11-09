@@ -1,0 +1,19 @@
+name: docs
+
+on:
+  push:
+    branches: [main]
+  # Triggered by silksong-modding-style-docfx when the theme changes.
+  workflow_dispatch:
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  docfx:
+    # A host-qualified reusable workflow runs as a single job, so it needs a runner label.
+    runs-on: ubuntu-latest
+    uses: https://git.silksong-modding.org/silksong-modding/silksong-modding-style-docfx/.forgejo/workflows/build-docs.yml@main
+    with:
+      docs-path: docs
