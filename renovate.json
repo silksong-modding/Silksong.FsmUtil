@@ -1,0 +1,11 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["local>silksong-modding/renovate"],
+  "packageRules": [
+    {
+      "description": "Provided by the game and BepInEx at runtime; versions must match what they ship",
+      "matchPackageNames": ["BepInEx.Core", "HarmonyX", "UnityEngine.Modules"],
+      "enabled": false
+    }
+  ]
+}

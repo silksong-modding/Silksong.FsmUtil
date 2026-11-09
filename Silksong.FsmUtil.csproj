@@ -21,7 +21,7 @@
 
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageIcon>icon.png</PackageIcon>
-        <RepositoryUrl>https://github.com/silksong-modding/Silksong.FsmUtil</RepositoryUrl>
+        <RepositoryUrl>https://git.silksong-modding.org/silksong-modding/Silksong.FsmUtil</RepositoryUrl>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
     <PropertyGroup>
@@ -32,7 +32,7 @@
         <Authors>silksong-modding</Authors>
         <Description>This is a library for mods to make FSM edits easier.</Description>
         <Copyright>Copyright (c) silksong-modding 2026</Copyright>
-        <PackageProjectUrl>https://github.com/silksong-modding/Silksong.FsmUtil</PackageProjectUrl>
+        <PackageProjectUrl>https://git.silksong-modding.org/silksong-modding/Silksong.FsmUtil</PackageProjectUrl>
         <PackageLicenseExpression>EUPL-1.2</PackageLicenseExpression>
         <RepositoryType>git</RepositoryType>
         <PackageTags>play;maker;playmaker;fsm;playmakerfsm;hutong;games;hutonggames</PackageTags>

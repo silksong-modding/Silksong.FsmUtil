@@ -20,23 +20,20 @@ on:
     
 permissions:
   contents: write
-  id-token: write
-  attestations: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.version.outputs.version }}
-      attestation-url: ${{ steps.attest.outputs.attestation-url }}
       # when you are ready to publish your first release, change this to 'true'
       allow-release: 'true'
       is-new-version: ${{ !fromJSON(steps.needs-release.outputs.exists || 'true') }}
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: https://code.forgejo.org/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
     - name: Setup .NET
-      uses: actions/setup-dotnet@v5
+      uses: https://github.com/actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
       with:
         dotnet-version: 10.x
     - name: Build
@@ -50,29 +47,30 @@ jobs:
         echo Version is $VERSION
         echo "version=$VERSION" >> $GITHUB_OUTPUT
     - name: Upload thunderstore artifact
-      uses: actions/upload-artifact@v6
+      uses: https://code.forgejo.org/forgejo/upload-artifact@cb8afe72b42edc798abfb8fcb556cf660d894245 # v5
       with:
         name: mod-bundle
         path: thunderstore/dist
     - name: Upload nuget artifact
-      uses: actions/upload-artifact@v6
+      uses: https://code.forgejo.org/forgejo/upload-artifact@cb8afe72b42edc798abfb8fcb556cf660d894245 # v5
       with:
         name: nuget
         path: nuget/
     - name: Check if release needed
       id: needs-release
-      uses: mukunku/tag-exists-action@v1.7.0
-      if: github.event_name == 'push'
-      with:
-        tag: v${{ steps.version.outputs.version }}
-    - name: Generate attestation
-      id: attest
-      uses: actions/attest-build-provenance@v4
-      if: github.event_name == 'push' && steps.needs-release.outputs.exists == 'false'
-      with:
-        subject-path: |
-          thunderstore/dist/*.zip
-          nuget/*.nupkg
+      if: forgejo.event_name == 'push'
+      env:
+        TAG: v${{ steps.version.outputs.version }}
+      run: |
+        set +e
+        git ls-remote --exit-code --tags origin "refs/tags/$TAG" > /dev/null
+        rc=$?
+        set -e
+        case $rc in
+          0) echo "exists=true" >> "$FORGEJO_OUTPUT" ;;
+          2) echo "exists=false" >> "$FORGEJO_OUTPUT" ;;
+          *) echo "git ls-remote failed with exit code $rc"; exit $rc ;;
+        esac
 
   # Publish to Thunderstore to that users can install it
   release-thunderstore:
@@ -93,21 +91,21 @@ jobs:
           github.event.inputs.force_thunderstore == 'true'
         )
       )
-    # Do not substitute your Thunderstore API key in this workflow! Instead, add a secret to your repository.
-    # https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets
+    # Do not substitute your Thunderstore API key in this workflow! Instead, add a secret to your repository
+    # (Settings > Actions > Secrets on the forge).
     env:
       THUNDERSTORE_API_KEY: ${{ secrets.THUNDERSTORE_API_KEY }}
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: https://code.forgejo.org/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
     - name: Setup .NET
-      uses: actions/setup-dotnet@v5
+      uses: https://github.com/actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
       with:
         dotnet-version: 9.x
     - name: Restore tools
       run: dotnet tool restore
     - name: Download artifact
-      uses: actions/download-artifact@v7
+      uses: https://code.forgejo.org/forgejo/download-artifact@769f970437aa3291b13f35dc23fc87967d7fb19f # v7
       with:
         name: mod-bundle
         path: thunderstore/dist
@@ -118,7 +116,7 @@ jobs:
           --file thunderstore/dist/*.zip \
           --token $THUNDERSTORE_API_KEY
 
-  # Publish to NuGet so that other mods can depend on it in CI
+  # Publish to the forge's NuGet feed so that other mods can depend on it in CI
   release-nuget:
     needs:
       - build
@@ -137,30 +135,30 @@ jobs:
           github.event.inputs.force_nuget == 'true'
         )
       )
-    # Do not substitute your NuGet API key in this workflow! Instead, add a secret to your repository
-    # https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets
+    # NUGET_API_KEY is an org-level Actions secret (a bot token that can publish to the forge's NuGet feed).
+    # Do not substitute it in this workflow.
     env:
       NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
     steps:
     - name: Setup .NET
-      uses: actions/setup-dotnet@v5
+      uses: https://github.com/actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
       with:
         dotnet-version: 9.x
     - name: Download artifact
-      uses: actions/download-artifact@v7
+      uses: https://code.forgejo.org/forgejo/download-artifact@769f970437aa3291b13f35dc23fc87967d7fb19f # v7
       with:
         name: nuget
         path: nuget/
     - name: Publish to NuGet
       run: |-
         dotnet nuget push nuget/*.nupkg \
-          --api-key $NUGET_API_KEY \
-          --source https://api.nuget.org/v3/index.json
+          --api-key "$NUGET_API_KEY" \
+          --source https://git.silksong-modding.org/api/packages/silksong-modding/nuget/index.json
 
-  # Publish to GitHub releases to keep release history on the repository (needed for this workflow to work properly
+  # Publish to Forgejo releases to keep release history on the repository (needed for this workflow to work properly
   # but is also nice for multiple other reasons such as auto-tagging *after* a build success)
-  release-github:
+  release-forgejo:
     needs:
       - build
     runs-on: ubuntu-latest
@@ -168,21 +166,19 @@ jobs:
 
     steps:
     - name: Download artifact
-      uses: actions/download-artifact@v7
+      uses: https://code.forgejo.org/forgejo/download-artifact@769f970437aa3291b13f35dc23fc87967d7fb19f # v7
       with:
         name: mod-bundle
         path: thunderstore/dist
+    # forgejo-release uploads every file in release-dir, so make sure the build produced the zip.
+    - name: Check release files
+      run: ls thunderstore/dist/*.zip
     - name: Release
-      uses: softprops/action-gh-release@v2
+      uses: https://code.forgejo.org/actions/forgejo-release@98265452477dafb3f0f27ba9c462c90b18cb44fd # v2.13.4
       with:
-        draft: false
-        generate_release_notes: true
-        fail_on_unmatched_files: true
-        tag_name: v${{ needs.build.outputs.version }}
-        body: |
-          Build attested at ${{ needs.build.outputs.attestation-url }}
-        files: |
-          thunderstore/dist/*.zip
+        direction: upload
+        tag: v${{ needs.build.outputs.version }}
+        release-dir: thunderstore/dist
 
   secret-check:
     runs-on: ubuntu-latest
